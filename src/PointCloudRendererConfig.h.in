@@ -1,0 +1,3 @@
+#pragma once
+
+#define POINT_CLOUD_RENDERER_VERSION "${CMAKE_PROJECT_VERSION}"

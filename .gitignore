@@ -2,6 +2,7 @@
 .vscode
 build
 libs/*/
+src/PointCloudRendererConfig.h
 
 CMakeLists.txt.user
 CMakeCache.txt

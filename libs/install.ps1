@@ -29,3 +29,4 @@ function Install {
 Install -Name "SDL-release-2.24.1" -Url "https://github.com/libsdl-org/SDL/archive/refs/tags/release-2.24.1.zip"
 Install -Name "glm" -Url "https://github.com/g-truc/glm/releases/download/0.9.9.8/glm-0.9.9.8.zip"
 Install -Name "geGL-master" -Url "https://github.com/dormon/geGL/archive/refs/heads/master.zip"
+Install -Name "CLI11-2.3.1" -Url "https://github.com/CLIUtils/CLI11/archive/refs/tags/v2.3.1.zip" 
