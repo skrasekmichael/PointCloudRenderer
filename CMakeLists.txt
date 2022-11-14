@@ -4,6 +4,8 @@ project(PointCloudRenderer VERSION 1.0)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/libs)
+
 macro(InstallLib name url)
 	message("-- Installing ${name}...")
 	if (WIN32)
