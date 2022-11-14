@@ -3,6 +3,8 @@
 
 #undef main
 
+using namespace PCR;
+
 int main(int argc, char *argv[])
 {
 	ArgumentParser parser;

@@ -3,9 +3,12 @@
 #include <iostream>
 #include <SDL.h>
 
-class Window
+namespace PCR
 {
-private:
-public:
-	int mainLoop();
-};
+	class Window
+	{
+	private:
+	public:
+		int mainLoop();
+	};
+}

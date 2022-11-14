@@ -1,5 +1,7 @@
 #include <Window.h>
 
+using namespace PCR;
+
 int Window::mainLoop()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)

@@ -6,21 +6,23 @@
 
 #include <PointCloudRendererConfig.h>
 
-enum RenderType : int { None, Point };
-
-typedef struct {
-	RenderType type;
-	std::string file;
-} Arguments;
-
-class ArgumentParser
+namespace PCR
 {
-private:
-	CLI::App app{ "Point Cloud Renderer" };
-public:
-	Arguments args{ RenderType::None };
+	enum RenderType : int { None, Point };
 
-	ArgumentParser();
-	int parse(int argc, char *argv[]);
-};
+	typedef struct {
+		RenderType type;
+		std::string file;
+	} Arguments;
 
+	class ArgumentParser
+	{
+	private:
+		CLI::App app{ "Point Cloud Renderer" };
+	public:
+		Arguments args{ RenderType::None };
+
+		ArgumentParser();
+		int parse(int argc, char* argv[]);
+	};
+}
