@@ -1,0 +1,20 @@
+{
+	"profiles": {
+		"bunny": {
+			"commandName": "Project",
+			"commandLineArgs": "$(SolutionDir)..\\Data\\bunny.xyz"
+		},
+		"cube": {
+			"commandName": "Project",
+			"commandLineArgs": "$(SolutionDir)..\\Data\\cube.xyz"
+		},
+		"sphere": {
+			"commandName": "Project",
+			"commandLineArgs": "$(SolutionDir)..\\Data\\sphere_spiral_700.xyz"
+		},
+		"complex": {
+			"commandName": "Project",
+			"commandLineArgs": "$(SolutionDir)..\\Data\\complex.xyz"
+		}
+	}
+}

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PointCloudRenderer.APP.Scenes;
+using PointCloudRenderer.APP.ViewModels;
 using PointCloudRenderer.APP.Views;
 using System.Windows;
 
@@ -25,13 +27,23 @@ public partial class App : Application
 	private static void ConfigureServices(IConfiguration configuration, IServiceCollection services)
 	{
 		services.AddSingleton<MainWindow>();
+
+		//view models
+		services.AddSingleton<MainWindowViewModel>();
+
+		//scenes
+		services.AddSingleton<BasicPointCloudScene>();
 	}
 
 	protected override async void OnStartup(StartupEventArgs e)
 	{
 		await host.StartAsync();
 
-		var window = host.Services.GetRequiredService<MainWindow>();
+		var viewModel = host.Services.GetRequiredService<MainWindowViewModel>();
+		var window = new MainWindow(viewModel);
+
+		viewModel.LoadCloud(e.Args[0]);
+
 		window.Show();
 
 		base.OnStartup(e);

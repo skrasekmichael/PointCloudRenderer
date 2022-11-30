@@ -3,9 +3,28 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:gl="clr-namespace:OpenTK.Wpf;assembly=GLWpfControl"
+		xmlns:viewModels="clr-namespace:PointCloudRenderer.APP.ViewModels"
+		d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
 		mc:Ignorable="d"
-		Title="MainWindow" Height="450" Width="800">
+		Title="PointCloudRenderer" Height="450" Width="800">
 	<Grid>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition Width="auto" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
 
+			<StackPanel Orientation="Vertical" Grid.Column="0">
+				<Slider Minimum="1" Maximum="10" Value="{Binding PointSize}" />
+				<Slider Minimum="0" Maximum="360" Value="{Binding OrbitAngleX}" />
+				<Slider Minimum="0" Maximum="360" Value="{Binding OrbitAngleY}" />
+			</StackPanel>
+
+			<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="CornflowerBlue" />
+
+			<gl:GLWpfControl x:Name="canvas" Render="canvas_Render" SizeChanged="canvas_SizeChanged" MouseWheel="canvas_MouseWheel" Grid.Column="2" />
+		</Grid>
 	</Grid>
 </Window>
