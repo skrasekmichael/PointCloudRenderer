@@ -6,6 +6,7 @@ namespace PointCloudRenderer.APP.Helpers.Models;
 
 public class SimplePointCloudModel
 {
+	private readonly Matrix4 model;
 	private readonly Shader shader;
 	private readonly uint[] indices;
 	private readonly int vao;
@@ -13,6 +14,7 @@ public class SimplePointCloudModel
 	public SimplePointCloudModel(PointCloud cloud)
 	{
 		indices = Enumerable.Range(0, cloud.Points.Length).Select(x => (uint)x).ToArray();
+		model = Matrix4.CreateTranslation(-cloud.Center);
 
 		vao = GL.GenVertexArray();
 		GL.BindVertexArray(vao);
@@ -41,7 +43,7 @@ public class SimplePointCloudModel
 	public void Render(Matrix4 mvp, Matrix4 proj)
 	{
 		shader.Use();
-		shader.SetUniform("mvp", mvp);
+		shader.SetUniform("mvp", model * mvp);
 		shader.SetUniform("proj", proj);
 
 		GL.BindVertexArray(vao);

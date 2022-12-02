@@ -1,10 +1,12 @@
-﻿using PointCloudRenderer.Data.Extensions;
+﻿using OpenTK.Mathematics;
+using PointCloudRenderer.Data.Extensions;
 
 namespace PointCloudRenderer.Data;
 
 public class PointCloud
 {
 	public float[] Points { get; }
+	public Vector3 Center { get; init; }
 
 	public PointCloud(float[] data)
 	{
@@ -19,6 +21,9 @@ public class PointCloud
 		using var reader = new StreamReader(stream);
 
 		string? line = null;
+		Vector3 sum = Vector3.Zero;
+		int count = 0;
+
 		do
 		{
 			var data = parser.Parse(line);
@@ -26,9 +31,15 @@ public class PointCloud
 			{
 				points.Add(data.Point);
 				points.Add(data.Color);
+
+				sum += data.Point;
+				count++;
 			}
 		} while ((line = reader.ReadLine()) is not null);
 
-		return new PointCloud(points.ToArray());
+		return new PointCloud(points.ToArray())
+		{
+			Center = sum / count
+		};
 	}
 }
