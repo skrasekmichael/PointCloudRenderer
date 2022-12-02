@@ -6,6 +6,8 @@ public class AxisLinesModel
 {
 	private readonly LineModel x, y, z;
 
+	public float Size { get; set; } = 1;
+
 	public AxisLinesModel()
 	{
 		x = new(new(0, 0, 0), new(1, 0, 0))

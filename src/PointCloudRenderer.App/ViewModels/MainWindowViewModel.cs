@@ -68,7 +68,7 @@ public class MainWindowViewModel : BaseViewModel
 		var builder = new LineParserBuilder(new());
 
 		builder.AddPoint<IValueConverter.Float>();
-		builder.AddColor<IValueConverter.Float>();
+		//builder.AddColor<IValueConverter.Float>();
 
 		var cloud = PointCloud.FromFile(path, builder.Build());
 

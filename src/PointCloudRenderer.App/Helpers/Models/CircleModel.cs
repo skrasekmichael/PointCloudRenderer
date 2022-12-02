@@ -14,8 +14,6 @@ public class CircleModel
 	private readonly Shader shader;
 	private readonly int vao;
 
-	public float Size { get; set; } = 1;
-
 	public Vector4 Color { get; set; } = new(1, 0, 0, 1);
 
 	public CircleModel(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)

@@ -9,7 +9,7 @@ public class LineModel
 	private readonly int vao;
 	private readonly float[] vertices;
 
-	public Vector4 Color { get; set; }
+	public Vector4 Color { get; set; } = new(1, 0, 0, 1);
 
 	public LineModel(Vector3 start, Vector3 end)
 	{

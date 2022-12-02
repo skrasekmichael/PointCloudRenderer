@@ -14,24 +14,28 @@ void main()
 {
 	vec4 position = gl_in[0].gl_Position;
 	
+	//bottom-left
 	gColor = vColor[0];
 	gCoords = vec2(0, 1);
-	gl_Position = position + size * vec4(-0.2, -0.2, 0.0, 0.0) * proj; // 1:bottom-left
+	gl_Position = position + size * vec4(-0.1, -0.1, 0.0, 0.0) * proj;
     EmitVertex();
 
+	//bottom-right
 	gColor = vColor[0];
 	gCoords = vec2(1, 1);
-    gl_Position = position + size * vec4(0.2, -0.2, 0.0, 0.0) * proj; // 2:bottom-right
+    gl_Position = position + size * vec4(0.1, -0.1, 0.0, 0.0) * proj;
     EmitVertex();
 
+	//top-left
 	gColor = vColor[0];
 	gCoords = vec2(0, 0);
-    gl_Position = position + size * vec4(-0.2, 0.2, 0.0, 0.0) * proj; // 3:top-left
+    gl_Position = position + size * vec4(-0.1, 0.1, 0.0, 0.0) * proj;
     EmitVertex();
 
+	//top-right
 	gColor = vColor[0];
 	gCoords = vec2(1, 0);
-    gl_Position = position + size * vec4(0.2, 0.2, 0.0, 0.0) * proj; // 4:top-right
+    gl_Position = position + size * vec4(0.1, 0.1, 0.0, 0.0) * proj;
     EmitVertex();
 
     EndPrimitive();
