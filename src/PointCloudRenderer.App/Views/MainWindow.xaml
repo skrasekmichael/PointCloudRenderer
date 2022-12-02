@@ -30,7 +30,7 @@
 					</Grid.RowDefinitions>
 					
 					<TextBlock Grid.Row="0" Grid.Column="0" Text="point size: "/>
-					<Slider Grid.Row="0" Grid.Column="1" Minimum="1" Maximum="10" Value="{Binding PointSize}" />
+					<Slider Grid.Row="0" Grid.Column="1" Minimum="1" Maximum="20" Value="{Binding PointSize}" />
 
 					<TextBlock Grid.Row="1" Grid.Column="0" Text="orbit angle x: "/>
 					<Slider Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="360" Value="{Binding OrbitAngleX}" />
@@ -42,9 +42,6 @@
 					<TextBlock Text="zoom level: "/>
 					<TextBlock Text="{Binding ZoomLevel}"/>
 				</StackPanel>
-
-				<CheckBox Content="display axis" IsChecked="{Binding Scene.DisplayAxis}" />
-				<CheckBox Content="display circles" IsChecked="{Binding Scene.DisplayCircleAxis}" />
 			</StackPanel>
 
 			<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="CornflowerBlue" />

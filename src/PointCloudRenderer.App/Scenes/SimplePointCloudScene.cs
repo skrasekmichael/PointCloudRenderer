@@ -18,8 +18,8 @@ public class SimplePointCloudScene : IScene
 	public float Height { get; set; } = 1;
 	public float OrbitAngleX { get; set; }
 	public float OrbitAngleY { get; set; }
-	public bool DisplayAxis { get; set; } = true;
-	public bool DisplayCircleAxis { get; set; } = true;
+	public bool DisplayAxis { get; set; } = false;
+	public bool DisplayCircleAxis { get; set; } = false;
 
 	public void Load(PointCloud cloud)
 	{
@@ -28,6 +28,8 @@ public class SimplePointCloudScene : IScene
 		pointCloudModel = new SimplePointCloudModel(cloud);
 		axis = new();
 		circleAxis = new();
+
+		pointCloudModel.SetPointSize(1);
 	}
 
 	public void Render()
@@ -35,13 +37,14 @@ public class SimplePointCloudScene : IScene
 		GL.ClearColor(0.7f, 0.7f, 0.7f, 1);
 		GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
+		var proj = Matrix4.CreatePerspectiveFieldOfView(FOVY, Width / Height, 0.001f, 150.0f);
+
 		var mvp =
 			Matrix4.CreateFromAxisAngle(new(0, 1, 0), OrbitAngleX) *
 			Matrix4.CreateFromAxisAngle(new(1, 0, 0), OrbitAngleY) *
-			Matrix4.CreateTranslation(0, 0, -ZoomLevel) *
-			Matrix4.CreatePerspectiveFieldOfView(FOVY, Width / Height, 0.001f, 150.0f);
+			Matrix4.CreateTranslation(0, 0, -ZoomLevel) * proj;
 
-		pointCloudModel.Render(mvp);
+		pointCloudModel.Render(mvp, proj);
 
 		if (DisplayAxis)
 			axis.Render(mvp);
@@ -54,11 +57,6 @@ public class SimplePointCloudScene : IScene
 
 	public void SetPointSize(float size)
 	{
-		GL.PointSize(size);
-	}
-
-	public void Zoom(int delta)
-	{
-		ZoomLevel = Math.Max(0, ZoomLevel - (float)delta / 10000);
+		pointCloudModel.SetPointSize(size);
 	}
 }

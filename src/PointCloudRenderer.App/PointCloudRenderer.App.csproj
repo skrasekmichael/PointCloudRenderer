@@ -32,20 +32,25 @@
 	<ItemGroup>
 		<Resource Include="Resources\Shaders\*.frag" />
 		<Resource Include="Resources\Shaders\*.vert" />
+		<Resource Include="Resources\Shaders\*.geom" />
 	</ItemGroup>
 
 	<Target Name="EmbeddedShaders" BeforeTargets="BeforeBuild">
 		<ItemGroup>
 			<VertexShaders Include="Resources\Shaders\*.vert" />
 			<UpToDateCheckInput Include="@(VertexShaders)" />
-
 			<EmbeddedResource Include="@(VertexShaders)">
 				<LogicalName>VertexShaders.%(FileName)</LogicalName>
 			</EmbeddedResource>
 
+			<GeometryShaders Include="Resources\Shaders\*.geom" />
+			<UpToDateCheckInput Include="@(GeometryShaders)" />
+			<EmbeddedResource Include="@(GeometryShaders)">
+				<LogicalName>GeometryShaders.%(FileName)</LogicalName>
+			</EmbeddedResource>
+
 			<FragmentShaders Include="Resources\Shaders\*.frag" />
 			<UpToDateCheckInput Include="@(FragmentShaders)" />
-
 			<EmbeddedResource Include="@(FragmentShaders)">
 				<LogicalName>FragmentShaders.%(FileName)</LogicalName>
 			</EmbeddedResource>

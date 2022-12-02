@@ -20,6 +20,18 @@ public class Shader : IDisposable
 		ProgramHandle = CompileProgram(vertexShaderName, fragmentShaderName);
 	}
 
+	public Shader(string vertexShaderName, string geometryShaderName, string fragmentShaderName)
+	{
+		assembly = typeof(Shader).Assembly;
+		ProgramHandle = CompileProgram(
+			vertexShaderName,
+			fragmentShaderName,
+			null,
+			null,
+			geometryShaderName
+		);
+	}
+
 	private int CompileProgram(
 		string vertexShaderName,
 		string fragmentShaderName,
@@ -47,6 +59,10 @@ public class Shader : IDisposable
 		var handle = GL.CreateProgram();
 		shaders.ForEach(x => GL.AttachShader(handle, x));
 		GL.LinkProgram(handle);
+
+		var infoLog = GL.GetProgramInfoLog(handle);
+		if (infoLog != string.Empty)
+			throw new Exception(infoLog);
 
 		shaders.ForEach(x => {
 			GL.DetachShader(handle, x);

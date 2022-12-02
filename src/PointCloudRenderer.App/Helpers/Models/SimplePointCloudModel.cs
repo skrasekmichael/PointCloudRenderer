@@ -25,7 +25,7 @@ public class SimplePointCloudModel
 		GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
 		GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
 
-		shader = new Shader("SimplePointCloud", "SimplePointCloud");
+		shader = new Shader("SimplePointCloud", "SimplePointCloud", "SimplePointCloud");
 		shader.Use();
 
 		var position = shader.GetAttribLocation("aPosition");
@@ -38,12 +38,18 @@ public class SimplePointCloudModel
 		GL.EnableVertexAttribArray(color);
 	}
 
-	public void Render(Matrix4 mvp)
+	public void Render(Matrix4 mvp, Matrix4 proj)
 	{
 		shader.Use();
 		shader.SetUniform("mvp", mvp);
+		shader.SetUniform("proj", proj);
 
 		GL.BindVertexArray(vao);
 		GL.DrawElements(PrimitiveType.Points, indices.Length, DrawElementsType.UnsignedInt, 0);
+	}
+
+	public void SetPointSize(float size)
+	{
+		shader.SetUniform("size", 0.01f * size);
 	}
 }

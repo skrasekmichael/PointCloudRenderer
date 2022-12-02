@@ -31,7 +31,7 @@ public partial class MainWindow : Window
 		viewModel.Scene.Render();
 	}
 
-	private void canvas_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+	private void canvas_MouseWheel(object sender, MouseWheelEventArgs e)
 	{
 		viewModel.Zoom(e.Delta);
 	}
@@ -42,7 +42,7 @@ public partial class MainWindow : Window
 		viewModel.Scene.Height = (float)canvas.ActualHeight;
 	}
 
-	private void canvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+	private void canvas_MouseMove(object sender, MouseEventArgs e)
 	{
 		
 		if (isRotating)
@@ -60,10 +60,14 @@ public partial class MainWindow : Window
 	{
 		source = e.GetPosition(canvas);
 		isRotating = true;
+		viewModel.Scene.DisplayAxis = true;
+		viewModel.Scene.DisplayCircleAxis = true;
 	}
 
 	private void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 	{
 		isRotating = false;
+		viewModel.Scene.DisplayAxis = false;
+		viewModel.Scene.DisplayCircleAxis = false;
 	}
 }
