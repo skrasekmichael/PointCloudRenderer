@@ -2,5 +2,5 @@
 
 public enum CoordinatesOrder
 {
-    XYZ, XZY, YXZ, YZX, ZXY, ZYX
+	XYZ, XZY, YXZ, YZX, ZXY, ZYX
 }
