@@ -36,13 +36,13 @@
 					<Slider Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="6.28318548" Ticks="360"
 							Thumb.DragStarted="Slider_DragStarted"
 							Thumb.DragCompleted="Slider_DragCompleted"
-							Value="{Binding OrbitAngleX}" />
+							Value="{Binding Scene.OrbitAngleX}" />
 
 					<TextBlock Grid.Row="2" Grid.Column="0" Text="orbit angle y: "/>
 					<Slider Grid.Row="2" Grid.Column="1" Minimum="0" Maximum="6.28318548" Ticks="360"
 							Thumb.DragStarted="Slider_DragStarted"
 							Thumb.DragCompleted="Slider_DragCompleted"
-							Value="{Binding OrbitAngleY}" />
+							Value="{Binding Scene.OrbitAngleY}" />
 
 					<TextBlock Grid.Row="3" Grid.Column="0" Text="axis size: "/>
 					<Slider Grid.Row="3" Grid.Column="1" Minimum="0.001" Maximum="1" Ticks="100" 

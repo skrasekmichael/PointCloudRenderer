@@ -19,30 +19,6 @@ public class MainWindowViewModel : BaseViewModel
 		}
 	}
 
-	private float _angleX = 0;
-	public float OrbitAngleX
-	{
-		get => _angleX;
-		set
-		{
-			_angleX = value;
-			Scene.OrbitAngleX = value;
-			OnPropertyChanged(nameof(OrbitAngleX));
-		}
-	}
-
-	private float _angleY = 0;
-	public float OrbitAngleY
-	{
-		get => _angleY;
-		set
-		{
-			_angleY = value;
-			Scene.OrbitAngleY = value;
-			OnPropertyChanged(nameof(OrbitAngleY));
-		}
-	}
-
 	public float ZoomLevel
 	{
 		get => Scene.ZoomLevel;
