@@ -51,8 +51,8 @@ public partial class MainWindow : Window
 			var delta = newSource - source;
 			source = newSource;
 
-			viewModel.OrbitAngleX = (viewModel.OrbitAngleX + (float)(delta.X)) % 360;
-			viewModel.OrbitAngleY = (viewModel.OrbitAngleY + (float)(delta.Y)) % 360;
+			viewModel.OrbitAngleX = (viewModel.OrbitAngleX + (float)(delta.X * 0.01)) % MathF.Tau;
+			viewModel.OrbitAngleY = (viewModel.OrbitAngleY + (float)(delta.Y * 0.01)) % MathF.Tau;
 		}
 	}
 
@@ -69,5 +69,17 @@ public partial class MainWindow : Window
 		isRotating = false;
 		viewModel.Scene.DisplayAxis = false;
 		viewModel.Scene.DisplayCircleAxis = false;
+	}
+
+	private void Slider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+	{
+		viewModel.Scene.DisplayAxis = false;
+		viewModel.Scene.DisplayCircleAxis = false;
+	}
+
+	private void Slider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+	{
+		viewModel.Scene.DisplayAxis = true;
+		viewModel.Scene.DisplayCircleAxis = true;
 	}
 }

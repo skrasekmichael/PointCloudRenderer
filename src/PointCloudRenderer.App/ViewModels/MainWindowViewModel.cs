@@ -26,7 +26,7 @@ public class MainWindowViewModel : BaseViewModel
 		set
 		{
 			_angleX = value;
-			Scene.OrbitAngleX = value * MathF.PI / 180.0f;
+			Scene.OrbitAngleX = value;
 			OnPropertyChanged(nameof(OrbitAngleX));
 		}
 	}
@@ -38,7 +38,7 @@ public class MainWindowViewModel : BaseViewModel
 		set
 		{
 			_angleY = value;
-			Scene.OrbitAngleY = value * MathF.PI / 180.0f;
+			Scene.OrbitAngleY = value;
 			OnPropertyChanged(nameof(OrbitAngleY));
 		}
 	}

@@ -30,13 +30,25 @@
 					</Grid.RowDefinitions>
 					
 					<TextBlock Grid.Row="0" Grid.Column="0" Text="point size: "/>
-					<Slider Grid.Row="0" Grid.Column="1" Minimum="1" Maximum="20" Value="{Binding PointSize}" />
+					<Slider Grid.Row="0" Grid.Column="1" Minimum="1" Maximum="50" Value="{Binding PointSize}" />
 
 					<TextBlock Grid.Row="1" Grid.Column="0" Text="orbit angle x: "/>
-					<Slider Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="360" Value="{Binding OrbitAngleX}" />
+					<Slider Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="6.28318548" Ticks="360"
+							Thumb.DragStarted="Slider_DragStarted"
+							Thumb.DragCompleted="Slider_DragCompleted"
+							Value="{Binding OrbitAngleX}" />
 
 					<TextBlock Grid.Row="2" Grid.Column="0" Text="orbit angle y: "/>
-					<Slider Grid.Row="2" Grid.Column="1" Minimum="0" Maximum="360" Value="{Binding OrbitAngleY}" />
+					<Slider Grid.Row="2" Grid.Column="1" Minimum="0" Maximum="6.28318548" Ticks="360"
+							Thumb.DragStarted="Slider_DragStarted"
+							Thumb.DragCompleted="Slider_DragCompleted"
+							Value="{Binding OrbitAngleY}" />
+
+					<TextBlock Grid.Row="3" Grid.Column="0" Text="axis size: "/>
+					<Slider Grid.Row="3" Grid.Column="1" Minimum="0.001" Maximum="1" Ticks="100" 
+							Thumb.DragStarted="Slider_DragStarted"
+							Thumb.DragCompleted="Slider_DragCompleted"
+							Value="{Binding Scene.AxisSize}" />
 				</Grid>
 				<StackPanel Orientation="Horizontal" Margin="3">
 					<TextBlock Text="zoom level: "/>
