@@ -3,9 +3,10 @@ using PointCloudRenderer.Data;
 
 namespace PointCloudRenderer.APP.ViewModels;
 
-public class MainWindowViewModel
+public class MainWindowViewModel : BaseViewModel
 {
-	public BasicPointCloudScene Scene { get; }
+	public SimplePointCloudScene Scene { get; }
+
 
 	private float _pointSize = 0;
 	public float PointSize
@@ -18,29 +19,44 @@ public class MainWindowViewModel
 		}
 	}
 
-	private float _orbitAngleX = 0;
+	private float _angleX = 0;
 	public float OrbitAngleX
 	{
-		get => _orbitAngleX;
+		get => _angleX;
 		set
 		{
-			_orbitAngleX = value;
-			Scene.SetOrbitAngleX(value * MathF.PI * 2 / 360.0f);
+			_angleX = value;
+			SetCamera();
 		}
 	}
 
-	private float _orbitAngleY = 0;
+	private float _angleY = 0;
 	public float OrbitAngleY
 	{
-		get => _orbitAngleY;
+		get => _angleY;
 		set
 		{
-			_orbitAngleY = value;
-			Scene.SetOrbitAngleY(value * MathF.PI * 2 / 360.0f);
+			_angleY = value;
+			SetCamera();
 		}
 	}
 
-	public MainWindowViewModel(BasicPointCloudScene scene)
+	public float ZoomLevel
+	{
+		get => Scene.ZoomLevel;
+		set
+		{
+			Scene.ZoomLevel = value;
+			OnPropertyChanged(nameof(ZoomLevel));
+		}
+	}
+
+	public void Zoom(int delta)
+	{
+		ZoomLevel = Math.Max(0, ZoomLevel - (float)delta / 10000);
+	}
+
+	public MainWindowViewModel(SimplePointCloudScene scene)
 	{
 		Scene = scene;
 	}
@@ -50,9 +66,22 @@ public class MainWindowViewModel
 		var builder = new LineParserBuilder(new());
 
 		builder.AddPoint<IValueConverter.Float>();
+		//builder.AddColor<IValueConverter.Float>();
 
 		var cloud = PointCloud.FromFile(path, builder.Build());
 
 		Scene.Load(cloud);
+	}
+
+	private void SetCamera()
+	{
+		var x = OrbitAngleX * MathF.PI / 180.0f;
+		var y = OrbitAngleY * MathF.PI / 180.0f;
+
+		Scene.OrbitAngleX = x;
+		Scene.OrbitAngleY = y;
+
+		OnPropertyChanged(nameof(OrbitAngleX));
+		OnPropertyChanged(nameof(OrbitAngleY));
 	}
 }

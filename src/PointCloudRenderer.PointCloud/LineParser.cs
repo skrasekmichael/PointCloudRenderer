@@ -42,7 +42,7 @@ public sealed class LineParser
 		if (x is null || y is null || z is null)
 			return null;
 
-		var r = parseGroup("R") ?? 0.9f;
+		var r = parseGroup("R") ?? 0.1f;
 		var g = parseGroup("G") ?? 0.0f;
 		var b = parseGroup("B") ?? 0.0f;
 		var intensity = parseGroup("A") ?? 1;

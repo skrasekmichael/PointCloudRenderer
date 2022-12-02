@@ -11,20 +11,51 @@
 	<Grid>
 		<Grid>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
+				<ColumnDefinition Width="300" />
 				<ColumnDefinition Width="auto" />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
 
 			<StackPanel Orientation="Vertical" Grid.Column="0">
-				<Slider Minimum="1" Maximum="10" Value="{Binding PointSize}" />
-				<Slider Minimum="0" Maximum="360" Value="{Binding OrbitAngleX}" />
-				<Slider Minimum="0" Maximum="360" Value="{Binding OrbitAngleY}" />
+				<Grid Margin="3">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="auto" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
+					</Grid.RowDefinitions>
+					
+					<TextBlock Grid.Row="0" Grid.Column="0" Text="point size: "/>
+					<Slider Grid.Row="0" Grid.Column="1" Minimum="1" Maximum="10" Value="{Binding PointSize}" />
+
+					<TextBlock Grid.Row="1" Grid.Column="0" Text="orbit angle x: "/>
+					<Slider Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="360" Value="{Binding OrbitAngleX}" />
+
+					<TextBlock Grid.Row="2" Grid.Column="0" Text="orbit angle y: "/>
+					<Slider Grid.Row="2" Grid.Column="1" Minimum="0" Maximum="360" Value="{Binding OrbitAngleY}" />
+				</Grid>
+				<StackPanel Orientation="Horizontal" Margin="3">
+					<TextBlock Text="zoom level: "/>
+					<TextBlock Text="{Binding ZoomLevel}"/>
+				</StackPanel>
+
+				<CheckBox Content="display axis" IsChecked="{Binding Scene.DisplayAxis}" />
+				<CheckBox Content="display circles" IsChecked="{Binding Scene.DisplayCircleAxis}" />
 			</StackPanel>
 
 			<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="CornflowerBlue" />
 
-			<gl:GLWpfControl x:Name="canvas" Render="canvas_Render" SizeChanged="canvas_SizeChanged" MouseWheel="canvas_MouseWheel" Grid.Column="2" />
+			<gl:GLWpfControl x:Name="canvas" Grid.Column="2"
+							 Render="canvas_Render"
+							 SizeChanged="canvas_SizeChanged"
+							 MouseLeftButtonDown="canvas_MouseLeftButtonDown"
+							 MouseLeftButtonUp="canvas_MouseLeftButtonUp"
+							 MouseMove="canvas_MouseMove"
+							 MouseWheel="canvas_MouseWheel" />
 		</Grid>
 	</Grid>
 </Window>

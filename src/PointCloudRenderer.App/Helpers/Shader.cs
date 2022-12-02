@@ -1,5 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
+using PointCloudRenderer.APP.Extensions;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -8,54 +9,74 @@ namespace PointCloudRenderer.APP.Helpers;
 
 public class Shader : IDisposable
 {
-	public int ProgramHandle;
+	public int ProgramHandle { get; }
 
 	private readonly Dictionary<string, int> uniformLocations = new();
 	private readonly Assembly assembly;
 
-	public Shader(string shaderName)
+	public Shader(string vertexShaderName, string fragmentShaderName)
 	{
 		assembly = typeof(Shader).Assembly;
+		ProgramHandle = CompileProgram(vertexShaderName, fragmentShaderName);
+	}
 
-		var vertexShaderSource = ReadSource($"VertexShaders.{shaderName}");
-		var fragmentShaderSource = ReadSource($"FragmentShaders.{shaderName}");
+	private int CompileProgram(
+		string vertexShaderName,
+		string fragmentShaderName,
+		string? tessControlShaderName = null,
+		string? tessEvaluationShaderName = null,
+		string? geometryShaderName = null)
+	{
+		var shaders = new List<int>();
 
-		var vertexShader = GL.CreateShader(ShaderType.VertexShader);
-		GL.ShaderSource(vertexShader, vertexShaderSource);
+		void addShader(string? shaderName, ShaderType type)
+		{
+			if (shaderName is not null)
+			{
+				var source = ReadSource(type.Path(shaderName));
+				shaders.Add(CompileShader(source, type));
+			}
+		}
 
-		var fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
-		GL.ShaderSource(fragmentShader, fragmentShaderSource);
+		addShader(vertexShaderName, ShaderType.VertexShader);
+		addShader(fragmentShaderName, ShaderType.FragmentShader);
+		addShader(tessControlShaderName, ShaderType.TessControlShader);
+		addShader(tessEvaluationShaderName, ShaderType.TessEvaluationShader);
+		addShader(geometryShaderName, ShaderType.GeometryShader);
 
-		GL.CompileShader(vertexShader);
+		var handle = GL.CreateProgram();
+		shaders.ForEach(x => GL.AttachShader(handle, x));
+		GL.LinkProgram(handle);
 
-		string infoLogVert = GL.GetShaderInfoLog(vertexShader);
-		if (infoLogVert != string.Empty)
-			throw new Exception(infoLogVert);
+		shaders.ForEach(x => {
+			GL.DetachShader(handle, x);
+			GL.DeleteShader(x);
+		});
 
-		GL.CompileShader(fragmentShader);
-
-		string infoLogFrag = GL.GetShaderInfoLog(fragmentShader);
-		if (infoLogFrag != string.Empty)
-			throw new Exception(infoLogFrag);
-
-		ProgramHandle = GL.CreateProgram();
-		GL.AttachShader(ProgramHandle, vertexShader);
-		GL.AttachShader(ProgramHandle, fragmentShader);
-		GL.LinkProgram(ProgramHandle);
-
-		GL.DetachShader(ProgramHandle, vertexShader);
-		GL.DetachShader(ProgramHandle, fragmentShader);
-		GL.DeleteShader(vertexShader);
-		GL.DeleteShader(fragmentShader);
-
-		GL.GetProgram(ProgramHandle, GetProgramParameterName.ActiveUniforms, out var numberOfUniforms);
+		GL.GetProgram(handle, GetProgramParameterName.ActiveUniforms, out var numberOfUniforms);
 
 		for (var i = 0; i < numberOfUniforms; i++)
 		{
-			var key = GL.GetActiveUniform(ProgramHandle, i, out _, out _);
-			var location = GL.GetUniformLocation(ProgramHandle, key);
+			var key = GL.GetActiveUniform(handle, i, out _, out _);
+			var location = GL.GetUniformLocation(handle, key);
 			uniformLocations.Add(key, location);
 		}
+
+		return handle;
+	}
+
+	private int CompileShader(string source, ShaderType type)
+	{
+		var shader = GL.CreateShader(type);
+		GL.ShaderSource(shader, source);
+
+		GL.CompileShader(shader);
+
+		var infoLog = GL.GetShaderInfoLog(shader);
+		if (infoLog != string.Empty)
+			throw new Exception(infoLog);
+
+		return shader;
 	}
 
 	private string ReadSource(string shader)
@@ -85,6 +106,12 @@ public class Shader : IDisposable
 		GL.Uniform1(GetUniformLocation(name), value);
 	}
 
+	public void SetUniform(string name, Vector4 value)
+	{
+		Use();
+		GL.Uniform4(GetUniformLocation(name), value);
+	}
+
 	~Shader()
 	{
 		GL.DeleteProgram(ProgramHandle);
@@ -96,18 +123,9 @@ public class Shader : IDisposable
 		GC.SuppressFinalize(this);
 	}
 
-	public void Use()
-	{
-		GL.UseProgram(ProgramHandle);
-	}
+	public void Use() => GL.UseProgram(ProgramHandle);
 
-	public int GetAttribLocation(string attribName)
-	{
-		return GL.GetAttribLocation(ProgramHandle, attribName);
-	}
+	public int GetAttribLocation(string attribName) => GL.GetAttribLocation(ProgramHandle, attribName);
 
-	public int GetUniformLocation(string uniformName)
-	{
-		return uniformLocations[uniformName];
-	}
+	public int GetUniformLocation(string uniformName) => uniformLocations[uniformName];
 }

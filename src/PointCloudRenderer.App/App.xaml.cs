@@ -32,7 +32,7 @@ public partial class App : Application
 		services.AddSingleton<MainWindowViewModel>();
 
 		//scenes
-		services.AddSingleton<BasicPointCloudScene>();
+		services.AddSingleton<SimplePointCloudScene>();
 	}
 
 	protected override async void OnStartup(StartupEventArgs e)

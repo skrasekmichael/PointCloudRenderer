@@ -9,8 +9,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Shaders\BasicPointCloud.frag" />
-	  <None Remove="Resources\Shaders\BasicPointCloud.vert" />
+	  <None Remove="Resources\Shaders\Circle.frag" />
+	  <None Remove="Resources\Shaders\Circle.vert" />
+	  <None Remove="Resources\Shaders\Line.frag" />
+	  <None Remove="Resources\Shaders\Line.vert" />
+	  <None Remove="Resources\Shaders\SimplePointCloud.frag" />
+	  <None Remove="Resources\Shaders\SimplePointCloud.vert" />
 	</ItemGroup>
 
 	<ItemGroup>
