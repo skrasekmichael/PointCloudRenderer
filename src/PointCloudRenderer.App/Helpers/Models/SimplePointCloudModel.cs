@@ -52,6 +52,6 @@ public class SimplePointCloudModel
 
 	public void SetPointSize(float size)
 	{
-		shader.SetUniform("size", 0.01f * size);
+		shader.SetUniform("scale", size);
 	}
 }

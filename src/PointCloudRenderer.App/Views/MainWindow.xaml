@@ -30,7 +30,7 @@
 					</Grid.RowDefinitions>
 					
 					<TextBlock Grid.Row="0" Grid.Column="0" Text="point size: "/>
-					<Slider Grid.Row="0" Grid.Column="1" Minimum="1" Maximum="50" Value="{Binding PointSize}" />
+					<Slider Grid.Row="0" Grid.Column="1" Minimum="0.01" Maximum="0.7" Ticks="100" Value="{Binding PointSize}" />
 
 					<TextBlock Grid.Row="1" Grid.Column="0" Text="orbit angle x: "/>
 					<Slider Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="6.28318548" Ticks="360"

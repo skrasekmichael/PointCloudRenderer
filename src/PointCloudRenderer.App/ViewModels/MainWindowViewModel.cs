@@ -49,6 +49,6 @@ public class MainWindowViewModel : BaseViewModel
 		var cloud = PointCloud.FromFile(path, builder.Build());
 
 		Scene.Load(cloud);
-		PointSize = 3;
+		PointSize = 0.1f;
 	}
 }
