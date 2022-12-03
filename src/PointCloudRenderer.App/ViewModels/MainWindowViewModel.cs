@@ -1,4 +1,6 @@
-﻿using PointCloudRenderer.APP.Scenes;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PointCloudRenderer.APP.Scenes;
+using PointCloudRenderer.APP.Views;
 using PointCloudRenderer.Data;
 
 namespace PointCloudRenderer.APP.ViewModels;
@@ -6,7 +8,6 @@ namespace PointCloudRenderer.APP.ViewModels;
 public class MainWindowViewModel : BaseViewModel
 {
 	public SimplePointCloudScene Scene { get; }
-
 
 	private float _pointSize = 0;
 	public float PointSize
@@ -29,9 +30,14 @@ public class MainWindowViewModel : BaseViewModel
 		}
 	}
 
-	public MainWindowViewModel(SimplePointCloudScene scene)
+	private readonly IServiceProvider serviceProvider;
+
+	public MainWindowViewModel(
+		SimplePointCloudScene scene,
+		IServiceProvider serviceProvider)
 	{
 		Scene = scene;
+		this.serviceProvider = serviceProvider;
 	}
 
 	public void Zoom(int delta)
@@ -41,14 +47,13 @@ public class MainWindowViewModel : BaseViewModel
 
 	public void LoadCloud(string path)
 	{
-		var builder = new LineParserBuilder(new());
+		var window = serviceProvider.GetRequiredService<LoadPointCloudWindow>();
+		window.ViewModel.Load(path);
 
-		builder.AddPoint<IValueConverter.Float>();
-		//builder.AddColor<IValueConverter.Float>();
-
-		var cloud = PointCloud.FromFile(path, builder.Build());
-
-		Scene.Load(cloud);
-		PointSize = 0.1f;
+		if (window.ShowDialog() == true)
+		{
+			Scene.Load(window.ViewModel.Cloud!);
+			PointSize = 0.1f;
+		}
 	}
 }

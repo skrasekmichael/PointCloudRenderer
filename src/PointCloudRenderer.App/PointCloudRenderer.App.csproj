@@ -9,15 +9,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Shaders\Circle.frag" />
-	  <None Remove="Resources\Shaders\Circle.vert" />
-	  <None Remove="Resources\Shaders\Line.frag" />
-	  <None Remove="Resources\Shaders\Line.vert" />
-	  <None Remove="Resources\Shaders\SimplePointCloud.frag" />
-	  <None Remove="Resources\Shaders\SimplePointCloud.vert" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />

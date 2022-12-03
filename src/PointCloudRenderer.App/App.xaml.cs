@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PointCloudRenderer.APP.Converters;
 using PointCloudRenderer.APP.Scenes;
 using PointCloudRenderer.APP.ViewModels;
 using PointCloudRenderer.APP.Views;
@@ -27,9 +28,11 @@ public partial class App : Application
 	private static void ConfigureServices(IConfiguration configuration, IServiceCollection services)
 	{
 		services.AddSingleton<MainWindow>();
+		services.AddSingleton<LoadPointCloudWindow>();
 
 		//view models
 		services.AddSingleton<MainWindowViewModel>();
+		services.AddSingleton<LoadPointCloudWindowViewModel>();
 
 		//scenes
 		services.AddSingleton<SimplePointCloudScene>();
@@ -39,11 +42,8 @@ public partial class App : Application
 	{
 		await host.StartAsync();
 
-		var viewModel = host.Services.GetRequiredService<MainWindowViewModel>();
-		var window = new MainWindow(viewModel);
-
-		viewModel.LoadCloud(e.Args[0]);
-
+		var window = host.Services.GetRequiredService<MainWindow>();
+		window.ViewModel.LoadCloud(e.Args[0]);
 		window.Show();
 
 		base.OnStartup(e);

@@ -9,7 +9,7 @@ public class SimplePointCloudScene : IScene
 {
 	private const float FOVY = MathF.PI / 2;
 
-	private SimplePointCloudModel pointCloudModel = null!;
+	private SimplePointCloudModel? pointCloudModel = null;
 	private AxisLinesModel axis = null!;
 	private AxisCirclesModel circleAxis = null!;
 
@@ -36,21 +36,25 @@ public class SimplePointCloudScene : IScene
 		GL.ClearColor(0.7f, 0.7f, 0.7f, 1);
 		GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-		var proj = Matrix4.CreatePerspectiveFieldOfView(FOVY, Width / Height, 0.001f, 150.0f);
-		var model =
-			Matrix4.CreateFromAxisAngle(new(0, 1, 0), OrbitAngleX) *
-			Matrix4.CreateFromAxisAngle(new(1, 0, 0), OrbitAngleY);
+		if (pointCloudModel is not null)
+		{
 
-		var mvpCloud = model * Matrix4.CreateTranslation(0, 0, -ZoomLevel) * proj;
-		pointCloudModel.Render(mvpCloud, proj);
+			var proj = Matrix4.CreatePerspectiveFieldOfView(FOVY, Width / Height, 0.001f, 150.0f);
+			var model =
+				Matrix4.CreateFromAxisAngle(new(0, 1, 0), OrbitAngleX) *
+				Matrix4.CreateFromAxisAngle(new(1, 0, 0), OrbitAngleY);
 
-		var mvpAxis = model * Matrix4.CreateTranslation(0, 0, -1 / AxisSize) * proj;
+			var mvpCloud = model * Matrix4.CreateTranslation(0, 0, -ZoomLevel) * proj;
+			pointCloudModel.Render(mvpCloud, proj);
 
-		if (DisplayAxis)
-			axis.Render(mvpAxis);
+			var mvpAxis = model * Matrix4.CreateTranslation(0, 0, -1 / AxisSize) * proj;
 
-		if (DisplayCircleAxis)
-			circleAxis.Render(mvpAxis);
+			if (DisplayAxis)
+				axis.Render(mvpAxis);
+
+			if (DisplayCircleAxis)
+				circleAxis.Render(mvpAxis);
+		}
 
 		GL.Finish();
 	}

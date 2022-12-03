@@ -1,7 +1,13 @@
 ﻿<Application x:Class="PointCloudRenderer.APP.App"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:converters="clr-namespace:PointCloudRenderer.APP.Converters">
 	<Application.Resources>
-		 
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+			</ResourceDictionary.MergedDictionaries>
+
+			<converters:EnumTypeToArrayConverter x:Key="EnumType2ArrayConverter"/>
+		</ResourceDictionary>
 	</Application.Resources>
 </Application>

@@ -1,7 +1,8 @@
-﻿using System.Globalization;
+﻿using PointCloudRenderer.Data.Enums;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace PointCloudRenderer.Data;
+namespace PointCloudRenderer.Data.Parser;
 
 public sealed class LineParser
 {
@@ -17,6 +18,16 @@ public sealed class LineParser
 	{
 		this.converters = converters;
 		this.regex = regex;
+	}
+
+	public string[] GetScalars(string line)
+	{
+		var match = regex.Match(line);
+
+		if (!match.Success)
+			throw new Exception();
+
+		return match.Groups.Values.Select(x => x.Value).Skip(1).ToArray();
 	}
 
 	public LineData? Parse(string? line)
@@ -35,22 +46,22 @@ public sealed class LineParser
 			return null;
 		}
 
-		var x = parseGroup("X");
-		var y = parseGroup("Y");
-		var z = parseGroup("Z");
+		var x = parseGroup(ScalarName.X.ToString());
+		var y = parseGroup(ScalarName.Y.ToString());
+		var z = parseGroup(ScalarName.Z.ToString());
 
 		if (x is null || y is null || z is null)
-			return null;
+			throw new Exception("Missing coordinates.");
 
-		var r = parseGroup("R") ?? 0.1f;
-		var g = parseGroup("G") ?? 0.0f;
-		var b = parseGroup("B") ?? 0.0f;
-		var intensity = parseGroup("A") ?? 1;
+		var r = parseGroup(ScalarName.R.ToString()) ?? 0.1f;
+		var g = parseGroup(ScalarName.G.ToString()) ?? 0.0f;
+		var b = parseGroup(ScalarName.B.ToString()) ?? 0.0f;
+		var a = parseGroup(ScalarName.A.ToString()) ?? 1;
 
 		return new()
 		{
 			Point = new(x.Value, y.Value, z.Value),
-			Color = new(r, g, b, intensity)
+			Color = new(r, g, b, a)
 		};
 	}
 }

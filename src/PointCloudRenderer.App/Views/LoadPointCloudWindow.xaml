@@ -1,0 +1,79 @@
+﻿<Window x:Class="PointCloudRenderer.APP.Views.LoadPointCloudWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:viewModels="clr-namespace:PointCloudRenderer.APP.ViewModels"
+		xmlns:enums="clr-namespace:PointCloudRenderer.Data.Enums;assembly=PointCloudRenderer.Data"
+		d:DataContext="{d:DesignInstance Type=viewModels:LoadPointCloudWindowViewModel}"
+		mc:Ignorable="d"
+		Title="LoadPointCloudWindow" Height="450" Width="800"
+		x:Name="Window">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="auto"/>
+		</Grid.RowDefinitions>
+		
+		<StackPanel>
+			<GroupBox Header="Configuration">
+				<ComboBox ItemsSource="{Binding Source={x:Type enums:Separator}, Converter={StaticResource EnumType2ArrayConverter}}"
+						  SelectedValue="{Binding Options.Separator}"/>
+			</GroupBox>
+			<GroupBox Header="Lines 1-5">
+				<ItemsControl ItemsSource="{Binding Lines}">
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel Orientation="Vertical" />
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding}"/>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</GroupBox>
+			<GroupBox Header="Scalar configuration">
+				<ListView ItemsSource="{Binding ScalarTypes}">
+					<ListView.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel Orientation="Horizontal" />
+						</ItemsPanelTemplate>
+					</ListView.ItemsPanel>
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Vertical">
+								<ComboBox ItemsSource="{Binding ElementName=Window, Path=DataContext.DataTypes}"
+									  SelectedValue="{Binding DataType}"/>
+								<ComboBox ItemsSource="{Binding Source={x:Type enums:ScalarName}, Converter={StaticResource EnumType2ArrayConverter}}" 
+									  SelectedValue="{Binding Name}"/>
+								<ItemsControl ItemsSource="{Binding Scalars}">
+									<ItemsControl.ItemsPanel>
+										<ItemsPanelTemplate>
+											<StackPanel Orientation="Vertical" />
+										</ItemsPanelTemplate>
+									</ItemsControl.ItemsPanel>
+									<ItemsControl.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding}"/>
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+								</ItemsControl>
+							</StackPanel>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+			</GroupBox>
+		</StackPanel>
+
+		<StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+			<Button Content="OK" Padding="8" Margin="8,8,0,8" 
+					Command="{Binding LoadCommand}" 
+					CommandParameter="{Binding ElementName=Window}"/>
+			<Button Content="Cancel" Padding="8" Margin="8"
+					Command="{Binding CancelCommand}"
+					CommandParameter="{Binding ElementName=Window}"/>
+		</StackPanel>
+	</Grid>
+</Window>
