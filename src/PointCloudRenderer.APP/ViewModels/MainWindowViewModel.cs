@@ -1,12 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.Win32;
 using PointCloudRenderer.APP.Scenes;
-using PointCloudRenderer.APP.Views;
+using PointCloudRenderer.APP.Services;
 using PointCloudRenderer.Data;
 
 namespace PointCloudRenderer.APP.ViewModels;
 
 public class MainWindowViewModel : BaseViewModel
 {
+	public RelayCommand OpenFileCommand { get; }
+
 	public SimplePointCloudScene Scene { get; }
 
 	private float _pointSize = 0;
@@ -30,14 +33,15 @@ public class MainWindowViewModel : BaseViewModel
 		}
 	}
 
-	private readonly IServiceProvider serviceProvider;
+	private readonly OpenFileDialog ofd = new();
+	private readonly LoadPointCloudService loadPointCloudService;
 
-	public MainWindowViewModel(
-		SimplePointCloudScene scene,
-		IServiceProvider serviceProvider)
+	public MainWindowViewModel(SimplePointCloudScene scene, LoadPointCloudService loadPointCloudService)
 	{
 		Scene = scene;
-		this.serviceProvider = serviceProvider;
+		this.loadPointCloudService = loadPointCloudService;
+
+		OpenFileCommand = new RelayCommand(OpenFile);
 	}
 
 	public void Zoom(int delta)
@@ -49,5 +53,18 @@ public class MainWindowViewModel : BaseViewModel
 	{
 		Scene.Load(cloud);
 		PointSize = 0.1f;
+	}
+
+	public void OpenFile()
+	{
+		ofd.Filter = ".xyz|*.xyz";
+		ofd.Multiselect = false;
+
+		if (ofd.ShowDialog() == true)
+		{
+			var cloud = loadPointCloudService.Load(ofd.FileName);
+			if (cloud is not null)
+				LoadCloud(cloud);
+		}
 	}
 }

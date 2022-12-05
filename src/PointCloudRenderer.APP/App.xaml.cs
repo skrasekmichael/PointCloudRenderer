@@ -30,7 +30,7 @@ public partial class App : Application
 	private static void ConfigureServices(IConfiguration configuration, IServiceCollection services)
 	{
 		services.AddSingleton<MainWindow>();
-		services.AddSingleton<LoadPointCloudWindow>();
+		services.AddTransient<LoadPointCloudWindow>();
 
 		//view models
 		services.AddSingleton<MainWindowViewModel>();

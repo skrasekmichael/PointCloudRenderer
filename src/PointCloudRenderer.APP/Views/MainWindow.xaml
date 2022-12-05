@@ -9,7 +9,18 @@
 		mc:Ignorable="d"
 		Title="PointCloudRenderer" Height="450" Width="800">
 	<Grid>
-		<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="20"/>
+			<RowDefinition />
+		</Grid.RowDefinitions>
+
+		<Menu>
+			<MenuItem Header="File">
+				<MenuItem Header="Open" Command="{Binding OpenFileCommand}" />
+			</MenuItem>
+		</Menu>
+		
+		<Grid Grid.Row="1">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="300" />
 				<ColumnDefinition Width="auto" />
