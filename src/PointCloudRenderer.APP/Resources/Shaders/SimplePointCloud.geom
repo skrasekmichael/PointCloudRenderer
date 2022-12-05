@@ -20,25 +20,25 @@ void main()
 	gColor = vColor[0];
 	gCoords = vec2(0, 1);
 	gl_Position = position + scale * vec4(-size, -size, 0.0, 0.0) * proj;
-    EmitVertex();
+	EmitVertex();
 
 	//bottom-right
 	gColor = vColor[0];
 	gCoords = vec2(1, 1);
-    gl_Position = position + scale * vec4(size, -size, 0.0, 0.0) * proj;
-    EmitVertex();
+	gl_Position = position + scale * vec4(size, -size, 0.0, 0.0) * proj;
+	EmitVertex();
 
 	//top-left
 	gColor = vColor[0];
 	gCoords = vec2(0, 0);
-    gl_Position = position + scale * vec4(-size, size, 0.0, 0.0) * proj;
-    EmitVertex();
+	gl_Position = position + scale * vec4(-size, size, 0.0, 0.0) * proj;
+	EmitVertex();
 
 	//top-right
 	gColor = vColor[0];
 	gCoords = vec2(1, 0);
-    gl_Position = position + scale * vec4(size, size, 0.0, 0.0) * proj;
-    EmitVertex();
+	gl_Position = position + scale * vec4(size, size, 0.0, 0.0) * proj;
+	EmitVertex();
 
-    EndPrimitive();
+	EndPrimitive();
 }
