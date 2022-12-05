@@ -8,6 +8,7 @@
 			</ResourceDictionary.MergedDictionaries>
 
 			<converters:EnumTypeToArrayConverter x:Key="EnumType2ArrayConverter"/>
+			<converters:RadianAngleToDomainConverter x:Key="RadianAngle2DomainConverter"/>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

@@ -25,7 +25,7 @@ public sealed class LineParser
 		var match = regex.Match(line);
 
 		if (!match.Success)
-			throw new Exception();
+			return Array.Empty<string>();
 
 		return match.Groups.Values.Select(x => x.Value).Skip(1).ToArray();
 	}

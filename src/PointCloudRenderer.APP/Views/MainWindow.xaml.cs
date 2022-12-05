@@ -50,8 +50,8 @@ public partial class MainWindow : Window
 			var delta = newSource - source;
 			source = newSource;
 
-			ViewModel.Scene.OrbitAngleX = MathF.Abs((ViewModel.Scene.OrbitAngleX + (float)(delta.X * 0.01)) % MathF.Tau);
-			ViewModel.Scene.OrbitAngleY = MathF.Abs((ViewModel.Scene.OrbitAngleY + (float)(delta.Y * 0.01)) % MathF.Tau);
+			ViewModel.Scene.OrbitAngleX = (ViewModel.Scene.OrbitAngleX + (float)(delta.X * 0.01)) % MathF.Tau + MathF.Tau;
+			ViewModel.Scene.OrbitAngleY = (ViewModel.Scene.OrbitAngleY + (float)(delta.Y * 0.01)) % MathF.Tau + MathF.Tau;
 		}
 	}
 
