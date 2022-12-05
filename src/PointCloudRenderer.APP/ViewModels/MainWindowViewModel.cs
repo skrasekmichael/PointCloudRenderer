@@ -10,7 +10,7 @@ public sealed partial class MainWindowViewModel : BaseViewModel
 {
 	public SimplePointCloudScene Scene { get; }
 
-	private float _pointSize = 0;
+	private float _pointSize = 0.07f;
 	public float PointSize
 	{
 		get => _pointSize;
@@ -33,13 +33,12 @@ public sealed partial class MainWindowViewModel : BaseViewModel
 
 	public void Zoom(int delta)
 	{
-		Scene.ZoomLevel = Math.Max(0, Scene.ZoomLevel - (float)delta / 10000);
+		Scene.ZoomLevel = Math.Max(0, Scene.ZoomLevel - delta * 0.0001f);
 	}
 
 	public void LoadCloud(PointCloud cloud)
 	{
 		Scene.Load(cloud);
-		PointSize = 0.05f;
 	}
 
 	[RelayCommand]

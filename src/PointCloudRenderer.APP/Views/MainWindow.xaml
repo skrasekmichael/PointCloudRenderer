@@ -22,49 +22,60 @@
 		
 		<Grid Grid.Row="1">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="300" />
+				<ColumnDefinition Width="250" />
 				<ColumnDefinition Width="auto" />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
 
 			<StackPanel Orientation="Vertical" Grid.Column="0">
-				<Grid Margin="3">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="auto" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-					</Grid.RowDefinitions>
-					
-					<TextBlock Grid.Row="0" Grid.Column="0" Text="point size: "/>
-					<Slider Grid.Row="0" Grid.Column="1" Minimum="0.01" Maximum="0.7" Ticks="100" Value="{Binding PointSize}" />
 
-					<TextBlock Grid.Row="1" Grid.Column="0" Text="orbit angle x: "/>
-					<Slider Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="6.28318548" Ticks="360"
+				<StackPanel Margin="5">
+					<TextBlock>
+						<Run Text="point size:"/>
+						<Run Text="{Binding PointSize}"/>
+					</TextBlock>
+					<Slider Minimum="0.01" Maximum="0.7" Ticks="100" Value="{Binding PointSize}" />
+				</StackPanel>
+
+				<StackPanel Margin="5">
+					<TextBlock>
+						<Run Text="orbit angle x:"/>
+						<Run Text="{Binding Scene.OrbitAngleX}"/>
+						<Run Text="rads"/>
+					</TextBlock>
+					<Slider Minimum="0" Maximum="6.28318548" Ticks="360"
 							Thumb.DragStarted="Slider_DragStarted"
 							Thumb.DragCompleted="Slider_DragCompleted"
 							Value="{Binding Scene.OrbitAngleX, Converter={StaticResource RadianAngle2DomainConverter}}"/>
+				</StackPanel>
 
-					<TextBlock Grid.Row="2" Grid.Column="0" Text="orbit angle y: "/>
-					<Slider Grid.Row="2" Grid.Column="1" Minimum="0" Maximum="6.28318548" Ticks="360"
+				<StackPanel Margin="5">
+					<TextBlock>
+						<Run Text="orbit angle y:"/>
+						<Run Text="{Binding Scene.OrbitAngleY}"/>
+						<Run Text="rads"/>
+					</TextBlock>
+					<Slider Minimum="0" Maximum="6.28318548" Ticks="360"
 							Thumb.DragStarted="Slider_DragStarted"
 							Thumb.DragCompleted="Slider_DragCompleted"
 							Value="{Binding Scene.OrbitAngleY, Converter={StaticResource RadianAngle2DomainConverter}}"/>
+				</StackPanel>
 
-					<TextBlock Grid.Row="3" Grid.Column="0" Text="axis size: "/>
-					<Slider Grid.Row="3" Grid.Column="1" Minimum="0.001" Maximum="1" Ticks="100"
+				<StackPanel Margin="5">
+					<TextBlock>
+						<Run Text="axis size:"/>
+						<Run Text="{Binding Scene.AxisSize}"/>
+					</TextBlock>
+					<Slider Minimum="0.001" Maximum="1" Ticks="100"
 							Thumb.DragStarted="Slider_DragStarted"
 							Thumb.DragCompleted="Slider_DragCompleted"
 							Value="{Binding Scene.AxisSize}"/>
-				</Grid>
-				<StackPanel Orientation="Horizontal" Margin="3">
-					<TextBlock Text="zoom level: "/>
-					<TextBlock Text="{Binding Scene.ZoomLevel}"/>
 				</StackPanel>
+
+				<TextBlock Margin="5">
+					<Run Text="zoom level:"/>
+					<Run Text="{Binding Scene.ZoomLevel}"/>
+				</TextBlock>
 			</StackPanel>
 
 			<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="CornflowerBlue" />
