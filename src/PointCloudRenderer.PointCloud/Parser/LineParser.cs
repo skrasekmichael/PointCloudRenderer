@@ -39,20 +39,26 @@ public sealed class LineParser
 		if (!match.Success)
 			return null;
 
+		var missingGroups = new List<string>();
+
 		float? parseGroup(string group)
 		{
 			if (match.Groups.ContainsKey(group) && converters.ContainsKey(group))
-				return converters[group](match.Groups[group].Value, nfi);
+			{
+				var res = converters[group](match.Groups[group].Value, nfi);
+				if (res is null)
+					throw new Exception($"Failed to parse [{group}] at line [{line}]");
+
+				return res;
+			}
+
+			missingGroups.Add(group);
 			return null;
 		}
 
-		var x = parseGroup(ScalarName.X.ToString());
-		var y = parseGroup(ScalarName.Y.ToString());
-		var z = parseGroup(ScalarName.Z.ToString());
-
-		if (x is null || y is null || z is null)
-			throw new Exception("Missing coordinates.");
-
+		var x = parseGroup(ScalarName.X.ToString()) ?? 0.0f;
+		var y = parseGroup(ScalarName.Y.ToString()) ?? 0.0f;
+		var z = parseGroup(ScalarName.Z.ToString()) ?? 0.0f;
 		var r = parseGroup(ScalarName.R.ToString()) ?? 0.1f;
 		var g = parseGroup(ScalarName.G.ToString()) ?? 0.0f;
 		var b = parseGroup(ScalarName.B.ToString()) ?? 0.0f;
@@ -60,8 +66,9 @@ public sealed class LineParser
 
 		return new()
 		{
-			Point = new(x.Value, y.Value, z.Value),
-			Color = new(r, g, b, a)
+			Point = new(x, y, z),
+			Color = new(r, g, b, a),
+			Missing = missingGroups
 		};
 	}
 }

@@ -65,12 +65,15 @@ public sealed class PointCloudReader
 
 	public string[] GetLines(Range range) => lines[range];
 
-	public PointCloud GetPointCloud(LineParser parser)
+	public PointCloud GetPointCloud(LineParser parser) => ParsePointCloud(parser).Cloud;
+	public (PointCloud Cloud, IEnumerable<string> Missing) ParsePointCloud(LineParser parser)
 	{
 		var points = new List<float>();
 
 		var sum = Vector3.Zero;
 		var count = 0;
+
+		var errors = new HashSet<string>();
 
 		foreach (var line in lines)
 		{
@@ -79,15 +82,17 @@ public sealed class PointCloudReader
 			{
 				points.Add(data.Point);
 				points.Add(data.Color);
+				foreach (var err in data.Missing)
+					errors.Add(err);
 
 				sum += data.Point;
 				count++;
 			}
 		}
 
-		return new PointCloud(points.ToArray())
+		return (new PointCloud(points.ToArray())
 		{
 			Center = sum / count
-		};
+		}, errors);
 	}
 }

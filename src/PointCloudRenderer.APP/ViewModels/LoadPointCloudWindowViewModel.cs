@@ -18,9 +18,9 @@ public class LoadPointCloudWindowViewModel : BaseViewModel
 	public LineFormatOptions Options { get; } = new();
 	public ObservableCollection<string> Lines { get; } = new();
 	public ObservableCollection<ValueType> ScalarTypes { get; } = new();
-	public NamedType[] DataTypes { get; } = new[]
-	{
-		new NamedType(typeof(FloatScalar), "Float")
+	public NamedType[] DataTypes { get; } = {
+		new(typeof(FloatScalar), "Float"),
+		new(typeof(IntScalar), "Int")
 	};
 
 	private PointCloudReader? cloudReader;
@@ -47,6 +47,7 @@ public class LoadPointCloudWindowViewModel : BaseViewModel
 			ScalarTypes.Add(new()
 			{
 				Name = (ScalarName)start,
+				DataType = DataTypes.First(),
 				Scalars = scalar.Select(x => x.Scalar).ToArray()
 			});
 
@@ -68,18 +69,27 @@ public class LoadPointCloudWindowViewModel : BaseViewModel
 		{
 			if (type.DataType.Type == typeof(FloatScalar))
 				builder.AddScalar<FloatScalar>(type.Name);
+			else if (type.DataType.Type == typeof(IntScalar))
+				builder.AddScalar<IntScalar>(type.Name);
 		}
 
-		Cloud = cloudReader?.GetPointCloud(builder.Build());
+		try
+		{
+			(Cloud, _) = cloudReader!.ParsePointCloud(builder.Build());
 
-		window!.DialogResult = true;
-		window.Close();
+			window!.DialogResult = true;
+			window.Close();
+		}
+		catch (Exception ex)
+		{
+			MessageBox.Show(ex.Message);
+		}
 	}
 
 	public sealed record ValueType
 	{
 		public ScalarName Name { get; set; }
-		public NamedType DataType { get; set; } = new(typeof(FloatScalar), "Float");
+		public required NamedType DataType { get; set; }
 		public string[]? Scalars { get; init; }
 	}
 }
