@@ -3,8 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PointCloudRenderer.APP.Converters;
 using PointCloudRenderer.APP.Scenes;
+using PointCloudRenderer.APP.Services;
 using PointCloudRenderer.APP.ViewModels;
 using PointCloudRenderer.APP.Views;
+using PointCloudRenderer.Data;
 using System.Windows;
 
 namespace PointCloudRenderer.APP;
@@ -36,6 +38,9 @@ public partial class App : Application
 
 		//scenes
 		services.AddSingleton<SimplePointCloudScene>();
+
+		//services
+		services.AddSingleton<LoadPointCloudService>();
 	}
 
 	protected override async void OnStartup(StartupEventArgs e)
@@ -43,7 +48,18 @@ public partial class App : Application
 		await host.StartAsync();
 
 		var window = host.Services.GetRequiredService<MainWindow>();
-		window.ViewModel.LoadCloud(e.Args[0]);
+
+		if (e.Args.Length > 0)
+		{
+			var loader = host.Services.GetRequiredService<LoadPointCloudService>();
+			var cloud = loader.Load(e.Args[0]);
+
+			if (cloud is null)
+				Environment.Exit(0);
+
+			window.ViewModel.LoadCloud(cloud);
+		}
+
 		window.Show();
 
 		base.OnStartup(e);

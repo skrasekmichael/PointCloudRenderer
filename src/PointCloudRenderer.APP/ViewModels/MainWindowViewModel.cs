@@ -45,15 +45,9 @@ public class MainWindowViewModel : BaseViewModel
 		ZoomLevel = Math.Max(0, ZoomLevel - (float)delta / 10000);
 	}
 
-	public void LoadCloud(string path)
+	public void LoadCloud(PointCloud cloud)
 	{
-		var window = serviceProvider.GetRequiredService<LoadPointCloudWindow>();
-		window.ViewModel.Load(path);
-
-		if (window.ShowDialog() == true)
-		{
-			Scene.Load(window.ViewModel.Cloud!);
-			PointSize = 0.1f;
-		}
+		Scene.Load(cloud);
+		PointSize = 0.1f;
 	}
 }
