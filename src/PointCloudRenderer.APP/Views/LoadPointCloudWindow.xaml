@@ -68,8 +68,8 @@
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
-			<Button Content="OK" Padding="8" Margin="8,8,0,8" 
-					Command="{Binding LoadCommand}" 
+			<Button Content="OK" Padding="8" Margin="8,8,0,8"
+					Command="{Binding LoadCloudCommand}"
 					CommandParameter="{Binding ElementName=Window}"/>
 			<Button Content="Cancel" Padding="8" Margin="8"
 					Command="{Binding CancelCommand}"

@@ -2,7 +2,7 @@
 
 namespace PointCloudRenderer.APP.Helpers.Models;
 
-public class AxisCirclesModel
+public class AxisCirclesModel : IModel
 {
 	private readonly CircleModel cx, cy, cz;
 
@@ -38,6 +38,13 @@ public class AxisCirclesModel
 		{
 			Color = new(0, 0, 1, 1)
 		};
+	}
+
+	public void Dispose()
+	{
+		cx.Dispose();
+		cy.Dispose();
+		cz.Dispose();
 	}
 
 	public void Render(Matrix4 mvp)

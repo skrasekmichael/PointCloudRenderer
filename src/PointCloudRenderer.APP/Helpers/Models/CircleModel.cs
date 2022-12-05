@@ -3,7 +3,7 @@ using OpenTK.Mathematics;
 
 namespace PointCloudRenderer.APP.Helpers.Models;
 
-public class CircleModel
+public class CircleModel : IModel
 {
 	private static readonly uint[] indices =
 	{
@@ -57,5 +57,10 @@ public class CircleModel
 
 		GL.BindVertexArray(vao);
 		GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
+	}
+
+	public void Dispose()
+	{
+		shader.Dispose();
 	}
 }

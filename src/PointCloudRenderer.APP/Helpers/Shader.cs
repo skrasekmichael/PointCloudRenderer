@@ -128,11 +128,6 @@ public class Shader : IDisposable
 		GL.Uniform4(GetUniformLocation(name), value);
 	}
 
-	~Shader()
-	{
-		GL.DeleteProgram(ProgramHandle);
-	}
-
 	public void Dispose()
 	{
 		GL.DeleteProgram(ProgramHandle);

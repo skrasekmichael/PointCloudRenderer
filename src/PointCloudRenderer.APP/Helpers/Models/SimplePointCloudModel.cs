@@ -4,7 +4,7 @@ using PointCloudRenderer.Data;
 
 namespace PointCloudRenderer.APP.Helpers.Models;
 
-public class SimplePointCloudModel
+public class SimplePointCloudModel : IModel
 {
 	private readonly Matrix4 model;
 	private readonly Shader shader;
@@ -38,6 +38,11 @@ public class SimplePointCloudModel
 
 		GL.VertexAttribPointer(color, 4, VertexAttribPointerType.Float, false, 7 * sizeof(float), 3 * sizeof(float));
 		GL.EnableVertexAttribArray(color);
+	}
+
+	public void Dispose()
+	{
+		shader.Dispose();
 	}
 
 	public void Render(Matrix4 mvp, Matrix4 proj)

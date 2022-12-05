@@ -3,7 +3,7 @@ using OpenTK.Mathematics;
 
 namespace PointCloudRenderer.APP.Helpers.Models;
 
-public class LineModel
+public class LineModel : IModel
 {
 	private readonly Shader shader;
 	private readonly int vao;
@@ -42,5 +42,10 @@ public class LineModel
 
 		GL.BindVertexArray(vao);
 		GL.DrawArrays(PrimitiveType.Lines, 0, 2);
+	}
+
+	public void Dispose()
+	{
+		shader.Dispose();
 	}
 }

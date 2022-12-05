@@ -63,7 +63,7 @@
 				</Grid>
 				<StackPanel Orientation="Horizontal" Margin="3">
 					<TextBlock Text="zoom level: "/>
-					<TextBlock Text="{Binding ZoomLevel}"/>
+					<TextBlock Text="{Binding Scene.ZoomLevel}"/>
 				</StackPanel>
 			</StackPanel>
 

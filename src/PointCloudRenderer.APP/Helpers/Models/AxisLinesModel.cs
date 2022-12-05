@@ -2,7 +2,7 @@
 
 namespace PointCloudRenderer.APP.Helpers.Models;
 
-public class AxisLinesModel
+public class AxisLinesModel : IModel
 {
 	private readonly LineModel x, y, z;
 
@@ -31,5 +31,12 @@ public class AxisLinesModel
 		x.Render(mvp);
 		y.Render(mvp);
 		z.Render(mvp);
+	}
+
+	public void Dispose()
+	{
+		x.Dispose();
+		y.Dispose();
+		z.Dispose();
 	}
 }

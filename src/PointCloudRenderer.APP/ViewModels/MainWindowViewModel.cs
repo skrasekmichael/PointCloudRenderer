@@ -1,15 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using Microsoft.Win32;
 using PointCloudRenderer.APP.Scenes;
 using PointCloudRenderer.APP.Services;
 using PointCloudRenderer.Data;
+using Microsoft.Win32;
 
 namespace PointCloudRenderer.APP.ViewModels;
 
-public class MainWindowViewModel : BaseViewModel
+public sealed partial class MainWindowViewModel : BaseViewModel
 {
-	public RelayCommand OpenFileCommand { get; }
-
 	public SimplePointCloudScene Scene { get; }
 
 	private float _pointSize = 0;
@@ -20,16 +18,7 @@ public class MainWindowViewModel : BaseViewModel
 		{
 			_pointSize = value;
 			Scene.SetPointSize(value);
-		}
-	}
-
-	public float ZoomLevel
-	{
-		get => Scene.ZoomLevel;
-		set
-		{
-			Scene.ZoomLevel = value;
-			OnPropertyChanged(nameof(ZoomLevel));
+			OnPropertyChanged();
 		}
 	}
 
@@ -40,21 +29,20 @@ public class MainWindowViewModel : BaseViewModel
 	{
 		Scene = scene;
 		this.loadPointCloudService = loadPointCloudService;
-
-		OpenFileCommand = new RelayCommand(OpenFile);
 	}
 
 	public void Zoom(int delta)
 	{
-		ZoomLevel = Math.Max(0, ZoomLevel - (float)delta / 10000);
+		Scene.ZoomLevel = Math.Max(0, Scene.ZoomLevel - (float)delta / 10000);
 	}
 
 	public void LoadCloud(PointCloud cloud)
 	{
 		Scene.Load(cloud);
-		PointSize = 0.1f;
+		PointSize = 0.05f;
 	}
 
+	[RelayCommand]
 	public void OpenFile()
 	{
 		ofd.Filter = ".xyz|*.xyz";

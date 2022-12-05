@@ -9,11 +9,8 @@ using System.Windows;
 
 namespace PointCloudRenderer.APP.ViewModels;
 
-public class LoadPointCloudWindowViewModel : BaseViewModel
+public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 {
-	public RelayCommand<Window?> LoadCommand { get; }
-	public RelayCommand<Window?> CancelCommand { get; }
-
 	public PointCloud? Cloud { get; private set; }
 	public LineFormatOptions Options { get; } = new();
 	public ObservableCollection<string> Lines { get; } = new();
@@ -24,12 +21,6 @@ public class LoadPointCloudWindowViewModel : BaseViewModel
 	};
 
 	private PointCloudReader? cloudReader;
-
-	public LoadPointCloudWindowViewModel()
-	{
-		LoadCommand = new RelayCommand<Window?>(LoadCloud);
-		CancelCommand = new RelayCommand<Window?>(win => win!.Close());
-	}
 
 	public void Load(string path)
 	{
@@ -61,20 +52,22 @@ public class LoadPointCloudWindowViewModel : BaseViewModel
 		}
 	}
 
+	[RelayCommand]
 	public void LoadCloud(Window? window)
 	{
 		var builder = new LineParserBuilder(Options);
 
-		foreach (var type in ScalarTypes)
-		{
-			if (type.DataType.Type == typeof(FloatScalar))
-				builder.AddScalar<FloatScalar>(type.Name);
-			else if (type.DataType.Type == typeof(IntScalar))
-				builder.AddScalar<IntScalar>(type.Name);
-		}
-
 		try
 		{
+			foreach (var type in ScalarTypes)
+			{
+				if (type.DataType.Type == typeof(FloatScalar))
+					builder.AddScalar<FloatScalar>(type.Name);
+				else if (type.DataType.Type == typeof(IntScalar))
+					builder.AddScalar<IntScalar>(type.Name);
+			}
+
+
 			(Cloud, _) = cloudReader!.ParsePointCloud(builder.Build());
 
 			window!.DialogResult = true;
@@ -85,6 +78,9 @@ public class LoadPointCloudWindowViewModel : BaseViewModel
 			MessageBox.Show(ex.Message);
 		}
 	}
+
+	[RelayCommand]
+	public void Cancel(Window? window) => window?.Close();
 
 	public sealed record ValueType
 	{
