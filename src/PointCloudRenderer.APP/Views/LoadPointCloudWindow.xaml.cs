@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace PointCloudRenderer.APP.Views;
 
-public partial class LoadPointCloudWindow : Window
+public sealed partial class LoadPointCloudWindow : Window
 {
 	public LoadPointCloudWindowViewModel ViewModel { get; }
 

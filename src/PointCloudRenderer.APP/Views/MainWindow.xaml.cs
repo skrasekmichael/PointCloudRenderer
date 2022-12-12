@@ -3,7 +3,8 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace PointCloudRenderer.APP.Views;
-public partial class MainWindow : Window
+
+public sealed partial class MainWindow : Window
 {
 	public MainWindowViewModel ViewModel { get; }
 
@@ -27,18 +28,18 @@ public partial class MainWindow : Window
 
 	private void canvas_Render(TimeSpan obj)
 	{
-		ViewModel.Scene.Render();
+		ViewModel.SceneViewModel.Scene.Render();
 	}
 
 	private void canvas_MouseWheel(object sender, MouseWheelEventArgs e)
 	{
-		ViewModel.Zoom(e.Delta);
+		ViewModel.SceneViewModel.Zoom(e.Delta);
 	}
 
 	private void canvas_SizeChanged(object sender, SizeChangedEventArgs e)
 	{
-		ViewModel.Scene.Width = (float)canvas.ActualWidth;
-		ViewModel.Scene.Height = (float)canvas.ActualHeight;
+		ViewModel.SceneViewModel.Scene.Width = (float)canvas.ActualWidth;
+		ViewModel.SceneViewModel.Scene.Height = (float)canvas.ActualHeight;
 	}
 
 	private void canvas_MouseMove(object sender, MouseEventArgs e)
@@ -50,8 +51,8 @@ public partial class MainWindow : Window
 			var delta = newSource - source;
 			source = newSource;
 
-			ViewModel.Scene.OrbitAngleX = (ViewModel.Scene.OrbitAngleX + (float)(delta.X * 0.01)) % MathF.Tau + MathF.Tau;
-			ViewModel.Scene.OrbitAngleY = (ViewModel.Scene.OrbitAngleY + (float)(delta.Y * 0.01)) % MathF.Tau + MathF.Tau;
+			ViewModel.SceneViewModel.Scene.OrbitAngleX = (ViewModel.SceneViewModel.Scene.OrbitAngleX + (float)(delta.X * 0.01)) % MathF.Tau + MathF.Tau;
+			ViewModel.SceneViewModel.Scene.OrbitAngleY = (ViewModel.SceneViewModel.Scene.OrbitAngleY + (float)(delta.Y * 0.01)) % MathF.Tau + MathF.Tau;
 		}
 	}
 
@@ -59,26 +60,14 @@ public partial class MainWindow : Window
 	{
 		source = e.GetPosition(canvas);
 		isRotating = true;
-		ViewModel.Scene.DisplayAxis = true;
-		ViewModel.Scene.DisplayCircleAxis = true;
+		ViewModel.SceneViewModel.Scene.DisplayAxis = true;
+		ViewModel.SceneViewModel.Scene.DisplayCircleAxis = true;
 	}
 
 	private void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 	{
 		isRotating = false;
-		ViewModel.Scene.DisplayAxis = false;
-		ViewModel.Scene.DisplayCircleAxis = false;
-	}
-
-	private void Slider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
-	{
-		ViewModel.Scene.DisplayAxis = false;
-		ViewModel.Scene.DisplayCircleAxis = false;
-	}
-
-	private void Slider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
-	{
-		ViewModel.Scene.DisplayAxis = true;
-		ViewModel.Scene.DisplayCircleAxis = true;
+		ViewModel.SceneViewModel.Scene.DisplayAxis = false;
+		ViewModel.SceneViewModel.Scene.DisplayCircleAxis = false;
 	}
 }

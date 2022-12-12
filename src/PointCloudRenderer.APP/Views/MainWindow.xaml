@@ -5,6 +5,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:gl="clr-namespace:OpenTK.Wpf;assembly=GLWpfControl"
 		xmlns:viewModels="clr-namespace:PointCloudRenderer.APP.ViewModels"
+		xmlns:views="clr-namespace:PointCloudRenderer.APP.Views"
 		d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
 		mc:Ignorable="d"
 		Title="PointCloudRenderer" Height="450" Width="800">
@@ -28,54 +29,8 @@
 			</Grid.ColumnDefinitions>
 
 			<StackPanel Orientation="Vertical" Grid.Column="0">
-
-				<StackPanel Margin="5">
-					<TextBlock>
-						<Run Text="point size:"/>
-						<Run Text="{Binding PointSize}"/>
-					</TextBlock>
-					<Slider Minimum="0.01" Maximum="0.7" Ticks="100" Value="{Binding PointSize}" />
-				</StackPanel>
-
-				<StackPanel Margin="5">
-					<TextBlock>
-						<Run Text="orbit angle x:"/>
-						<Run Text="{Binding Scene.OrbitAngleX}"/>
-						<Run Text="rads"/>
-					</TextBlock>
-					<Slider Minimum="0" Maximum="6.28318548" Ticks="360"
-							Thumb.DragStarted="Slider_DragStarted"
-							Thumb.DragCompleted="Slider_DragCompleted"
-							Value="{Binding Scene.OrbitAngleX, Converter={StaticResource RadianAngle2DomainConverter}}"/>
-				</StackPanel>
-
-				<StackPanel Margin="5">
-					<TextBlock>
-						<Run Text="orbit angle y:"/>
-						<Run Text="{Binding Scene.OrbitAngleY}"/>
-						<Run Text="rads"/>
-					</TextBlock>
-					<Slider Minimum="0" Maximum="6.28318548" Ticks="360"
-							Thumb.DragStarted="Slider_DragStarted"
-							Thumb.DragCompleted="Slider_DragCompleted"
-							Value="{Binding Scene.OrbitAngleY, Converter={StaticResource RadianAngle2DomainConverter}}"/>
-				</StackPanel>
-
-				<StackPanel Margin="5">
-					<TextBlock>
-						<Run Text="axis size:"/>
-						<Run Text="{Binding Scene.AxisSize}"/>
-					</TextBlock>
-					<Slider Minimum="0.001" Maximum="1" Ticks="100"
-							Thumb.DragStarted="Slider_DragStarted"
-							Thumb.DragCompleted="Slider_DragCompleted"
-							Value="{Binding Scene.AxisSize}"/>
-				</StackPanel>
-
-				<TextBlock Margin="5">
-					<Run Text="zoom level:"/>
-					<Run Text="{Binding Scene.ZoomLevel}"/>
-				</TextBlock>
+				<views:CameraControlsView DataContext="{Binding SceneViewModel}"/>
+				<ContentControl Content="{Binding SceneViewModel}"/>
 			</StackPanel>
 
 			<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="CornflowerBlue" />

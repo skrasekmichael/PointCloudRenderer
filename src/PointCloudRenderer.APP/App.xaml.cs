@@ -29,12 +29,14 @@ public partial class App : Application
 
 	private static void ConfigureServices(IConfiguration configuration, IServiceCollection services)
 	{
+		//views and windows
 		services.AddSingleton<MainWindow>();
 		services.AddTransient<LoadPointCloudWindow>();
 
 		//view models
 		services.AddSingleton<MainWindowViewModel>();
 		services.AddSingleton<LoadPointCloudWindowViewModel>();
+		services.AddSingleton<SimplePointCloudSceneViewModel>();
 
 		//scenes
 		services.AddSingleton<SimplePointCloudScene>();
@@ -57,7 +59,7 @@ public partial class App : Application
 			if (cloud is null)
 				Environment.Exit(0);
 
-			window.ViewModel.LoadCloud(cloud);
+			window.ViewModel.SceneViewModel.LoadCloud(cloud);
 		}
 
 		window.Show();
