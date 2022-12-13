@@ -15,7 +15,7 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 	public LineFormatOptions Options { get; } = new();
 	public ObservableCollection<string> Lines { get; } = new();
 	public ObservableCollection<ValueType> ScalarTypes { get; } = new();
-	public NamedType[] DataTypes { get; } = {
+	public NamedObject<Type>[] DataTypes { get; } = {
 		new(typeof(FloatScalar), "Float"),
 		new(typeof(IntScalar), "Int")
 	};
@@ -61,9 +61,9 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 		{
 			foreach (var type in ScalarTypes)
 			{
-				if (type.DataType.Type == typeof(FloatScalar))
+				if (type.DataType.Object == typeof(FloatScalar))
 					builder.AddScalar<FloatScalar>(type.Name);
-				else if (type.DataType.Type == typeof(IntScalar))
+				else if (type.DataType.Object == typeof(IntScalar))
 					builder.AddScalar<IntScalar>(type.Name);
 			}
 
@@ -85,7 +85,7 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 	public sealed record ValueType
 	{
 		public ScalarName Name { get; set; }
-		public required NamedType DataType { get; set; }
+		public required NamedObject<Type> DataType { get; set; }
 		public string[]? Scalars { get; init; }
 	}
 }

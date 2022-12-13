@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PointCloudRenderer.APP.Helpers;
 
-public class Shader : IDisposable
+public sealed class Shader : IDisposable
 {
 	public int ProgramHandle { get; }
 

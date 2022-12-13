@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:converters="clr-namespace:PointCloudRenderer.APP.Converters"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<converters:EnumTypeToArrayConverter x:Key="EnumType2ArrayConverter"/>
+	<converters:RadianAngleToDomainConverter x:Key="RadianAngle2DomainConverter"/>
+
+</ResourceDictionary>

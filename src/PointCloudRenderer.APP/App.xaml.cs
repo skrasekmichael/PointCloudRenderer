@@ -59,7 +59,7 @@ public partial class App : Application
 			if (cloud is null)
 				Environment.Exit(0);
 
-			window.ViewModel.SceneViewModel.LoadCloud(cloud);
+			(window.DataContext as MainWindowViewModel)!.Cloud = cloud;
 		}
 
 		window.Show();

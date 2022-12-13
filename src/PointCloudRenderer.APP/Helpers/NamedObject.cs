@@ -1,14 +1,14 @@
 ﻿namespace PointCloudRenderer.APP.Helpers;
 
-public record NamedType
+public sealed record NamedObject<T>
 {
-	public Type Type { get; set; }
 	public string Name { get; set; }
+	public T Object { get; set; }
 
-	public NamedType(Type type, string name)
+	public NamedObject(T @object, string name)
 	{
-		Type = type;
 		Name = name;
+		Object = @object;
 	}
 
 	public override string ToString() => Name;

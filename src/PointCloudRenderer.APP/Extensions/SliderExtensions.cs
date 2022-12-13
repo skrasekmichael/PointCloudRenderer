@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace PointCloudRenderer.APP.Extensions;
 
-internal class SliderExtensions
+internal sealed class SliderExtensions
 {
 	public static readonly DependencyProperty DragCompletedCommandProperty = 
 		DependencyProperty.RegisterAttached("DragCompletedCommand", typeof(ICommand), typeof(SliderExtensions),

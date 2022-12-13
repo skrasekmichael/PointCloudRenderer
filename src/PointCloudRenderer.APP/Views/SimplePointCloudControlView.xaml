@@ -7,13 +7,11 @@
 			 d:DataContext="{d:DesignInstance Type=viewModels:SimplePointCloudSceneViewModel}"
 			 mc:Ignorable="d" 
 			 d:DesignHeight="450" d:DesignWidth="800">
-	<GroupBox Header="Simple Point Cloud">
-		<StackPanel Margin="5">
-			<TextBlock>
+	<StackPanel Margin="5">
+		<TextBlock>
 				<Run Text="point size:"/>
 				<Run Text="{Binding PointSize}"/>
-			</TextBlock>
-			<Slider Minimum="0.01" Maximum="0.7" Ticks="100" Value="{Binding PointSize}" />
-		</StackPanel>
-	</GroupBox>
+		</TextBlock>
+		<Slider Minimum="0.01" Maximum="0.7" Ticks="100" Value="{Binding PointSize}" />
+	</StackPanel>
 </UserControl>

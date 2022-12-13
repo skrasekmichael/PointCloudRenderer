@@ -1,10 +1,11 @@
 ﻿using PointCloudRenderer.APP.Scenes;
-using PointCloudRenderer.Data;
 
 namespace PointCloudRenderer.APP.ViewModels;
 
 public sealed class SimplePointCloudSceneViewModel : BaseSceneViewModel
 {
+	public override string Name => "Simple Rendering";
+
 	private float _pointSize = 0.07f;
 	public float PointSize
 	{
@@ -20,10 +21,5 @@ public sealed class SimplePointCloudSceneViewModel : BaseSceneViewModel
 	public SimplePointCloudSceneViewModel(SimplePointCloudScene scene) : base(scene)
 	{
 
-	}
-
-	public override void LoadCloud(PointCloud cloud)
-	{
-		Scene.Load(cloud);
 	}
 }

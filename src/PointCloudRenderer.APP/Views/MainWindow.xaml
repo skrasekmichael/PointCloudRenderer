@@ -3,45 +3,77 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
 		xmlns:gl="clr-namespace:OpenTK.Wpf;assembly=GLWpfControl"
 		xmlns:viewModels="clr-namespace:PointCloudRenderer.APP.ViewModels"
 		xmlns:views="clr-namespace:PointCloudRenderer.APP.Views"
+		xmlns:ext="clr-namespace:PointCloudRenderer.APP.Extensions"
 		d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
 		mc:Ignorable="d"
 		Title="PointCloudRenderer" Height="450" Width="800">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="20"/>
-			<RowDefinition />
+			<RowDefinition/>
 		</Grid.RowDefinitions>
 
 		<Menu>
 			<MenuItem Header="File">
-				<MenuItem Header="Open" Command="{Binding OpenFileCommand}" />
+				<MenuItem Header="Open" Command="{Binding OpenFileCommand}"/>
 			</MenuItem>
 		</Menu>
-		
+
 		<Grid Grid.Row="1">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="250" />
-				<ColumnDefinition Width="auto" />
-				<ColumnDefinition />
+				<ColumnDefinition Width="250"/>
+				<ColumnDefinition Width="auto"/>
+				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
 
 			<StackPanel Orientation="Vertical" Grid.Column="0">
-				<views:CameraControlsView DataContext="{Binding SceneViewModel}"/>
-				<ContentControl Content="{Binding SceneViewModel}"/>
+				<views:CameraControlsView DataContext="{Binding NamedSceneViewModel.Object}"/>
+				<GroupBox>
+					<GroupBox.Header>
+						<ComboBox Name="ComboScene" ItemsSource="{Binding SceneTypes}" SelectedValue="{Binding NamedSceneViewModel}"/>
+					</GroupBox.Header>
+					<ContentControl Content="{Binding NamedSceneViewModel.Object}"/>
+				</GroupBox>
 			</StackPanel>
 
 			<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="CornflowerBlue" />
 
-			<gl:GLWpfControl x:Name="canvas" Grid.Column="2"
-							 Render="canvas_Render"
-							 SizeChanged="canvas_SizeChanged"
-							 MouseLeftButtonDown="canvas_MouseLeftButtonDown"
-							 MouseLeftButtonUp="canvas_MouseLeftButtonUp"
-							 MouseMove="canvas_MouseMove"
-							 MouseWheel="canvas_MouseWheel" />
+			<gl:GLWpfControl x:Name="canvas" Grid.Column="2">
+				<i:Interaction.Behaviors>
+					<ext:MouseBehavior MouseX="{Binding NamedSceneViewModel.Object.MouseX, Mode=OneWayToSource}" MouseY="{Binding NamedSceneViewModel.Object.MouseY, Mode=OneWayToSource}"/>
+				</i:Interaction.Behaviors>
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="Loaded">
+						<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.SetCanvasWidthCommand}" EventArgsParameterPath="Source.ActualWidth"/>
+						<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.SetCanvasHeightCommand}" EventArgsParameterPath="Source.ActualHeight"/>
+					</i:EventTrigger>
+					<i:EventTrigger EventName="MouseMove">
+						<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.RotateCommand}"/>
+					</i:EventTrigger>
+					<i:EventTrigger EventName="MouseLeave">
+						<i:ChangePropertyAction TargetObject="{Binding NamedSceneViewModel.Object}" PropertyName="IsRotating" Value="{StaticResource False}"/>
+						<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.SetAxisVisibilityCommand}" CommandParameter="{StaticResource False}"/>
+					</i:EventTrigger>
+					<i:EventTrigger EventName="MouseLeftButtonDown">
+						<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.StartRotatingCommand}"/>
+					</i:EventTrigger>
+					<i:EventTrigger EventName="MouseLeftButtonUp">
+						<i:ChangePropertyAction TargetObject="{Binding NamedSceneViewModel.Object}" PropertyName="IsRotating" Value="{StaticResource False}"/>
+						<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.SetAxisVisibilityCommand}" CommandParameter="{StaticResource False}"/>
+					</i:EventTrigger>
+					<i:EventTrigger EventName="SizeChanged">
+						<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.SetCanvasWidthCommand}" EventArgsParameterPath="NewSize.Width"/>
+						<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.SetCanvasHeightCommand}" EventArgsParameterPath="NewSize.Height"/>
+					</i:EventTrigger>
+					<i:EventTrigger EventName="MouseWheel">
+						<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.ZoomCommand}" EventArgsParameterPath="Delta"/>
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+			</gl:GLWpfControl>
 		</Grid>
 	</Grid>
 </Window>
