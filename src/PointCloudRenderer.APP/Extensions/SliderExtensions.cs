@@ -13,7 +13,7 @@ internal class SliderExtensions
 
 	public static readonly DependencyProperty DragCompletedCommandParameterProperty =
 		DependencyProperty.RegisterAttached("DragCompletedCommandParameter", typeof(object), typeof(SliderExtensions),
-		new PropertyMetadata(default, OnDragCompletedCommandChanged));
+		new PropertyMetadata(default, null));
 
 	public static readonly DependencyProperty DragStartedCommandProperty =
 		DependencyProperty.RegisterAttached("DragStartedCommand", typeof(ICommand), typeof(SliderExtensions),
@@ -21,7 +21,7 @@ internal class SliderExtensions
 
 	public static readonly DependencyProperty DragStartedCommandParameterProperty =
 		DependencyProperty.RegisterAttached("DragStartedCommandParameter", typeof(object), typeof(SliderExtensions),
-		new PropertyMetadata(default, OnDragStartedCommandChanged));
+		new PropertyMetadata(default, null));
 
 	private static void OnDragCompletedCommandChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
 	{

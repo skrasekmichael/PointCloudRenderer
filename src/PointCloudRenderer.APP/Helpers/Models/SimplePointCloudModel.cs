@@ -13,7 +13,7 @@ public class SimplePointCloudModel : IModel
 
 	public SimplePointCloudModel(PointCloud cloud)
 	{
-		indices = Enumerable.Range(0, cloud.Points.Length).Select(x => (uint)x).ToArray();
+		indices = Enumerable.Range(0, cloud.Count).Select(x => (uint)x).ToArray();
 		model = Matrix4.CreateTranslation(-cloud.Center);
 
 		vao = GL.GenVertexArray();

@@ -92,7 +92,8 @@ public sealed class PointCloudReader
 
 		return (new PointCloud(points.ToArray())
 		{
-			Center = sum / count
+			Center = sum / count,
+			Count = count
 		}, errors);
 	}
 }
