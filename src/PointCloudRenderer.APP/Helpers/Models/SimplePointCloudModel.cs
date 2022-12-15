@@ -4,7 +4,7 @@ using PointCloudRenderer.Data;
 
 namespace PointCloudRenderer.APP.Helpers.Models;
 
-public class SimplePointCloudModel : IModel
+public sealed class SimplePointCloudModel : IModel
 {
 	private readonly Matrix4 model;
 	private readonly Shader shader;

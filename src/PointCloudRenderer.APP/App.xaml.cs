@@ -1,17 +1,15 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PointCloudRenderer.APP.Converters;
 using PointCloudRenderer.APP.Scenes;
 using PointCloudRenderer.APP.Services;
 using PointCloudRenderer.APP.ViewModels;
 using PointCloudRenderer.APP.Views;
-using PointCloudRenderer.Data;
 using System.Windows;
 
 namespace PointCloudRenderer.APP;
 
-public partial class App : Application
+public sealed partial class App : Application
 {
 	private readonly IHost host;
 

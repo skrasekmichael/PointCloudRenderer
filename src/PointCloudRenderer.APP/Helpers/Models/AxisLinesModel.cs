@@ -2,7 +2,7 @@
 
 namespace PointCloudRenderer.APP.Helpers.Models;
 
-public class AxisLinesModel : IModel
+public sealed class AxisLinesModel : IModel
 {
 	private readonly LineModel x, y, z;
 

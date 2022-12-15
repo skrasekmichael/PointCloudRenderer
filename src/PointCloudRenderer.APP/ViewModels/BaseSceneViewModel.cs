@@ -23,7 +23,6 @@ public partial class BaseSceneViewModel : BaseViewModel
 	public void SetAxisVisibility(bool isVisible)
 	{
 		Scene.DisplayAxis = isVisible;
-		Scene.DisplayCircleAxis = isVisible;
 	}
 
 	[RelayCommand]

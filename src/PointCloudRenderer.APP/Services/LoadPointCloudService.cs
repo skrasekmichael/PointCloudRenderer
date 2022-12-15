@@ -4,7 +4,7 @@ using PointCloudRenderer.Data;
 
 namespace PointCloudRenderer.APP.Services;
 
-public class LoadPointCloudService
+public sealed class LoadPointCloudService
 {
 	private readonly IServiceProvider serviceProvider;
 

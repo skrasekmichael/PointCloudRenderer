@@ -3,7 +3,7 @@ using OpenTK.Mathematics;
 
 namespace PointCloudRenderer.APP.Helpers.Models;
 
-public class CircleModel : IModel
+public sealed class CircleModel : IModel
 {
 	private static readonly uint[] indices =
 	{

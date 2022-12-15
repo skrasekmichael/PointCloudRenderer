@@ -2,7 +2,7 @@
 
 namespace PointCloudRenderer.Data;
 
-public class PointCloud
+public sealed class PointCloud
 {
 	public int Count { get; set; }
 	public float[] Points { get; }

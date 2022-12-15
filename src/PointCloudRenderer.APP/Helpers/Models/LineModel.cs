@@ -3,7 +3,7 @@ using OpenTK.Mathematics;
 
 namespace PointCloudRenderer.APP.Helpers.Models;
 
-public class LineModel : IModel
+public sealed class LineModel : IModel
 {
 	private readonly Shader shader;
 	private readonly int vao;

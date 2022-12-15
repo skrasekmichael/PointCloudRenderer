@@ -2,7 +2,7 @@
 
 namespace PointCloudRenderer.APP.Helpers.Models;
 
-public class AxisCirclesModel : IModel
+public sealed class AxisCirclesModel : IModel
 {
 	private readonly CircleModel cx, cy, cz;
 
