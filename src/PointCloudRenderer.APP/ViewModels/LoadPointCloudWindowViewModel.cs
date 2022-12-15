@@ -25,7 +25,7 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 	public void Load(string path)
 	{
 		cloudReader = new PointCloudReader(path);
-		var range = new Range(1, 5);
+		var range = cloudReader.GetRange(5);
 
 		var count = cloudReader.GetNumberOfScalars(range, Options).Max();
 
