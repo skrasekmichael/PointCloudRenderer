@@ -8,53 +8,51 @@
 			 d:DataContext="{d:DesignInstance Type=viewModels:BaseSceneViewModel}"
 			 mc:Ignorable="d" 
 			 d:DesignHeight="450" d:DesignWidth="800">
-	<GroupBox Header="Camera">
-		<StackPanel>
-			<StackPanel Margin="3">
-				<TextBlock>
-						<Run Text="orbit angle x:"/>
-						<Run Text="{Binding Scene.OrbitAngleX}"/>
-						<Run Text="rads"/>
-				</TextBlock>
-				<Slider Name="SL" Minimum="0" Maximum="6.28318548" Ticks="360" 
-						ext:SliderExtensions.DragStartedCommand="{Binding SetAxisVisibilityCommand}"
-						ext:SliderExtensions.DragStartedCommandParameter="{StaticResource True}"
-						ext:SliderExtensions.DragCompletedCommand="{Binding SetAxisVisibilityCommand}"
-						ext:SliderExtensions.DragCompletedCommandParameter="{StaticResource False}"
-						Value="{Binding Scene.OrbitAngleX, Converter={StaticResource RadianAngle2DomainConverter}}"/>
-			</StackPanel>
-
-			<StackPanel Margin="3">
-				<TextBlock>
-					<Run Text="orbit angle y:"/>
-					<Run Text="{Binding Scene.OrbitAngleY}"/>
-					<Run Text="rads"/>
-				</TextBlock>
-				<Slider Minimum="0" Maximum="6.28318548" Ticks="360"
-						ext:SliderExtensions.DragStartedCommand="{Binding SetAxisVisibilityCommand}"
-						ext:SliderExtensions.DragStartedCommandParameter="{StaticResource True}"
-						ext:SliderExtensions.DragCompletedCommand="{Binding SetAxisVisibilityCommand}"
-						ext:SliderExtensions.DragCompletedCommandParameter="{StaticResource False}"
-						Value="{Binding Scene.OrbitAngleY, Converter={StaticResource RadianAngle2DomainConverter}}"/>
-			</StackPanel>
-
-			<StackPanel Margin="3">
-				<TextBlock>
-					<Run Text="axis size:"/>
-					<Run Text="{Binding Scene.AxisSize}"/>
-				</TextBlock>
-				<Slider Minimum="0.001" Maximum="1" Ticks="100"
-						ext:SliderExtensions.DragStartedCommand="{Binding SetAxisVisibilityCommand}"
-						ext:SliderExtensions.DragStartedCommandParameter="{StaticResource True}"
-						ext:SliderExtensions.DragCompletedCommand="{Binding SetAxisVisibilityCommand}"
-						ext:SliderExtensions.DragCompletedCommandParameter="{StaticResource False}"
-						Value="{Binding Scene.AxisSize}"/>
-			</StackPanel>
-
-			<TextBlock Margin="3">
-					<Run Text="zoom level:"/>
-					<Run Text="{Binding Scene.ZoomLevel}"/>
+	<StackPanel>
+		<StackPanel Margin="3">
+			<TextBlock>
+				<Run Text="orbit angle x:"/>
+				<Run Text="{Binding Scene.OrbitAngleX}"/>
+				<Run Text="rads"/>
 			</TextBlock>
+			<Slider Name="SL" Minimum="0" Maximum="{StaticResource TAU}" Ticks="360"
+					ext:SliderExtensions.DragStartedCommand="{Binding SetAxisVisibilityCommand}"
+					ext:SliderExtensions.DragStartedCommandParameter="{StaticResource True}"
+					ext:SliderExtensions.DragCompletedCommand="{Binding SetAxisVisibilityCommand}"
+					ext:SliderExtensions.DragCompletedCommandParameter="{StaticResource False}"
+					Value="{Binding Scene.OrbitAngleX, Converter={StaticResource RadianAngle2DomainConverter}}"/>
 		</StackPanel>
-	</GroupBox>
+
+		<StackPanel Margin="3">
+			<TextBlock>
+				<Run Text="orbit angle y:"/>
+				<Run Text="{Binding Scene.OrbitAngleY}"/>
+				<Run Text="rads"/>
+			</TextBlock>
+			<Slider Minimum="0" Maximum="{StaticResource TAU}" Ticks="360"
+					ext:SliderExtensions.DragStartedCommand="{Binding SetAxisVisibilityCommand}"
+					ext:SliderExtensions.DragStartedCommandParameter="{StaticResource True}"
+					ext:SliderExtensions.DragCompletedCommand="{Binding SetAxisVisibilityCommand}"
+					ext:SliderExtensions.DragCompletedCommandParameter="{StaticResource False}"
+					Value="{Binding Scene.OrbitAngleY, Converter={StaticResource RadianAngle2DomainConverter}}"/>
+		</StackPanel>
+
+		<StackPanel Margin="3">
+			<TextBlock>
+				<Run Text="axis size:"/>
+				<Run Text="{Binding Scene.AxisSize}"/>
+			</TextBlock>
+			<Slider Minimum="0.001" Maximum="1" Ticks="100"
+					ext:SliderExtensions.DragStartedCommand="{Binding SetAxisVisibilityCommand}"
+					ext:SliderExtensions.DragStartedCommandParameter="{StaticResource True}"
+					ext:SliderExtensions.DragCompletedCommand="{Binding SetAxisVisibilityCommand}"
+					ext:SliderExtensions.DragCompletedCommandParameter="{StaticResource False}"
+					Value="{Binding Scene.AxisSize}"/>
+		</StackPanel>
+
+		<TextBlock Margin="3">
+			<Run Text="zoom level:"/>
+			<Run Text="{Binding Scene.ZoomLevel}"/>
+		</TextBlock>
+	</StackPanel>
 </UserControl>

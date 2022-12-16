@@ -4,5 +4,6 @@
 
 	<converters:EnumTypeToArrayConverter x:Key="EnumType2ArrayConverter"/>
 	<converters:RadianAngleToDomainConverter x:Key="RadianAngle2DomainConverter"/>
+	<converters:NumberToCustomFormatConverter x:Key="Number2CustomFormatConverter"/>
 
 </ResourceDictionary>

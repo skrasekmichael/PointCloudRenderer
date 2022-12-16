@@ -9,13 +9,13 @@ namespace PointCloudRenderer.APP.Scenes;
 public abstract partial class BaseScene : ObservableObject, IDisposable
 {
 	private const float FOVY = MathF.PI / 2;
-	private static readonly Matrix4 cameraOffset = Matrix4.CreateTranslation(0, 0, -1);
+	private static readonly float SCALE = MathF.Tan(MathF.PI / 4);
 
 	protected AxisLinesModel? AxisLinesModel { get; private set; }
 	protected AxisCirclesModel? AxisCirclesModel { get; private set; }
 
 	[ObservableProperty]
-	private float zoomLevel = 2;
+	private float zoomLevel = 0.5f;
 
 	[ObservableProperty]
 	public float axisSize = 0.5f;
@@ -56,6 +56,8 @@ public abstract partial class BaseScene : ObservableObject, IDisposable
 	public void Load(PointCloud cloud)
 	{
 		GL.Enable(EnableCap.DepthTest);
+		GL.Enable(EnableCap.Blend);
+		GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
 		AxisLinesModel?.Dispose();
 		AxisLinesModel = new();
@@ -73,14 +75,14 @@ public abstract partial class BaseScene : ObservableObject, IDisposable
 		GL.ClearColor(0.7f, 0.7f, 0.7f, 1);
 		GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-		var proj = Matrix4.CreatePerspectiveFieldOfView(FOVY, aspect, 0.001f, 150.0f);
+		var proj = Matrix4.CreateTranslation(0, 0, -ZoomLevel) * Matrix4.CreatePerspectiveFieldOfView(FOVY, aspect, 0.001f, 150.0f);
 		var model =
 			Matrix4.CreateFromAxisAngle(new(0, 1, 0), OrbitAngleX) *
 			Matrix4.CreateFromAxisAngle(new(1, 0, 0), OrbitAngleY);
 
 		RenderCloud(model, proj);
 
-		var mvpAxis = model * Matrix4.CreateScale(AxisSize, AxisSize, AxisSize) * cameraOffset * proj;
+		var mvpAxis = model * Matrix4.CreateScale(AxisSize * ZoomLevel * SCALE) * proj;
 
 		if (DisplayAxis)
 		{

@@ -10,7 +10,7 @@
 		xmlns:ext="clr-namespace:PointCloudRenderer.APP.Extensions"
 		d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
 		mc:Ignorable="d"
-		Title="PointCloudRenderer" Height="450" Width="800">
+		Title="Point Cloud Renderer" Height="450" Width="800">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="20"/>
@@ -30,11 +30,29 @@
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
 
-			<StackPanel Orientation="Vertical" Grid.Column="0">
-				<views:CameraControlsView DataContext="{Binding NamedSceneViewModel.Object}"/>
-				<GroupBox>
+			<StackPanel Orientation="Vertical" Grid.Column="0" Margin="5">
+				<GroupBox Header="Point Cloud" Padding="5">
+					<TextBlock>
+						<Run Text="number of points:"/>
+						<Run Text="{Binding Cloud.Count, Converter={StaticResource Number2CustomFormatConverter}}"/>
+					</TextBlock>
+				</GroupBox>
+				<GroupBox Header="Camera" Padding="5">
+					<views:CameraControlsView DataContext="{Binding NamedSceneViewModel.Object}"/>
+				</GroupBox>
+				<GroupBox Padding="5">
 					<GroupBox.Header>
-						<ComboBox Name="ComboScene" ItemsSource="{Binding SceneTypes}" SelectedValue="{Binding NamedSceneViewModel}"/>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Method:" Margin="3"/>
+							<ComboBox Name="ComboScene" ItemsSource="{Binding SceneTypes}" SelectedValue="{Binding NamedSceneViewModel}">
+								<i:Interaction.Triggers>
+									<i:EventTrigger EventName="SelectionChanged">
+										<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.SetCanvasWidthCommand}" CommandParameter="{Binding ElementName=Canvas, Path=ActualWidth}"/>
+										<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.SetCanvasHeightCommand}" CommandParameter="{Binding ElementName=Canvas, Path=ActualHeight}"/>
+									</i:EventTrigger>
+								</i:Interaction.Triggers>
+							</ComboBox>
+						</StackPanel>
 					</GroupBox.Header>
 					<ContentControl Content="{Binding NamedSceneViewModel.Object}"/>
 				</GroupBox>
@@ -42,9 +60,9 @@
 
 			<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="CornflowerBlue" />
 
-			<gl:GLWpfControl x:Name="canvas" Grid.Column="2">
+			<gl:GLWpfControl x:Name="Canvas" Grid.Column="2">
 				<i:Interaction.Behaviors>
-					<ext:MouseBehavior MouseX="{Binding NamedSceneViewModel.Object.MouseX, Mode=OneWayToSource}" MouseY="{Binding NamedSceneViewModel.Object.MouseY, Mode=OneWayToSource}"/>
+					<ext:MouseBehavior MouseX="{Binding NamedSceneViewModel.Object.MouseX, Mode=TwoWay}" MouseY="{Binding NamedSceneViewModel.Object.MouseY, Mode=TwoWay}"/>
 				</i:Interaction.Behaviors>
 				<i:Interaction.Triggers>
 					<i:EventTrigger EventName="Loaded">

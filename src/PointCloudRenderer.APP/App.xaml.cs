@@ -5,6 +5,7 @@ using PointCloudRenderer.APP.Scenes;
 using PointCloudRenderer.APP.Services;
 using PointCloudRenderer.APP.ViewModels;
 using PointCloudRenderer.APP.Views;
+using System.Globalization;
 using System.Windows;
 
 namespace PointCloudRenderer.APP;

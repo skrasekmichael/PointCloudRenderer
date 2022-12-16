@@ -10,13 +10,13 @@ public sealed partial class MainWindow : Window
 		InitializeComponent();
 		DataContext = viewModel;
 
-		canvas.Start(new()
+		Canvas.Start(new()
 		{
-			MajorVersion = 3,
-			MinorVersion = 1,
-			RenderContinuously = true,
+			MajorVersion = 4,
+			MinorVersion = 6,
+			RenderContinuously = true
 		});
 
-		canvas.Render += _ => viewModel.NamedSceneViewModel?.Object.Scene.Render();
+		Canvas.Render += _ => viewModel.NamedSceneViewModel?.Object.Scene.Render();
 	}
 }

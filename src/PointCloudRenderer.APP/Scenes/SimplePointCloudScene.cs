@@ -1,8 +1,6 @@
 ﻿using PointCloudRenderer.Data;
-using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using PointCloudRenderer.APP.Helpers.Models;
-using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace PointCloudRenderer.APP.Scenes;
 
@@ -12,12 +10,13 @@ public sealed partial class SimplePointCloudScene : BaseScene
 
 	protected override void LoadCloud(PointCloud cloud)
 	{
+		pointCloudModel?.Dispose();
 		pointCloudModel = new SimplePointCloudModel(cloud);
 	}
 
 	protected override void RenderCloud(Matrix4 model, Matrix4 proj)
 	{
-		var mvpCloud = model * Matrix4.CreateTranslation(0, 0, -ZoomLevel) * proj;
+		var mvpCloud = model * proj;
 		pointCloudModel?.Render(mvpCloud, proj);
 	}
 

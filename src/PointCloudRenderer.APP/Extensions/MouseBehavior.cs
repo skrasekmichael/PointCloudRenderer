@@ -6,22 +6,19 @@ namespace PointCloudRenderer.APP.Extensions;
 
 internal sealed class MouseBehavior : Behavior<UIElement>
 {
-	public static readonly DependencyProperty MouseYProperty = DependencyProperty.Register(
-		"MouseY", typeof(double), typeof(MouseBehavior), new PropertyMetadata(default(double)));
-
-	public static readonly DependencyProperty MouseXProperty = DependencyProperty.Register(
-		"MouseX", typeof(double), typeof(MouseBehavior), new PropertyMetadata(default(double)));
-
-	public double MouseY
-	{
-		get => (double)GetValue(MouseYProperty);
-		set => SetValue(MouseYProperty, value);
-	}
+	public static readonly DependencyProperty MouseXProperty = DependencyProperty.Register(nameof(MouseX), typeof(double), typeof(MouseBehavior), new(default(double)));
+	public static readonly DependencyProperty MouseYProperty = DependencyProperty.Register(nameof(MouseY), typeof(double), typeof(MouseBehavior), new(default(double)));
 
 	public double MouseX
 	{
 		get => (double)GetValue(MouseXProperty);
 		set => SetValue(MouseXProperty, value);
+	}
+
+	public double MouseY
+	{
+		get => (double)GetValue(MouseYProperty);
+		set => SetValue(MouseYProperty, value);
 	}
 
 	protected override void OnAttached()

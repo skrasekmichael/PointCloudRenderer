@@ -9,39 +9,39 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
-		<PackageReference Include="OpenTK" Version="4.7.5" />
-		<PackageReference Include="OpenTK.GLWpfControl" Version="4.2.2" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0"/>
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0"/>
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39"/>
+		<PackageReference Include="OpenTK" Version="4.7.5"/>
+		<PackageReference Include="OpenTK.GLWpfControl" Version="4.2.2"/>
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\PointCloudRenderer.PointCloud\PointCloudRenderer.Data.csproj" />
+		<ProjectReference Include="..\PointCloudRenderer.PointCloud\PointCloudRenderer.Data.csproj"/>
 	</ItemGroup>
 
 	<ItemGroup>
-		<Resource Include="Resources\Shaders\*.frag" />
-		<Resource Include="Resources\Shaders\*.vert" />
-		<Resource Include="Resources\Shaders\*.geom" />
+		<Resource Include="Resources\Shaders\*.frag"/>
+		<Resource Include="Resources\Shaders\*.vert"/>
+		<Resource Include="Resources\Shaders\*.geom"/>
 	</ItemGroup>
 
 	<Target Name="EmbeddedShaders" BeforeTargets="BeforeBuild">
 		<ItemGroup>
-			<VertexShaders Include="Resources\Shaders\*.vert" />
-			<UpToDateCheckInput Include="@(VertexShaders)" />
+			<VertexShaders Include="Resources\Shaders\*.vert"/>
+			<UpToDateCheckInput Include="@(VertexShaders)"/>
 			<EmbeddedResource Include="@(VertexShaders)">
 				<LogicalName>VertexShaders.%(FileName)</LogicalName>
 			</EmbeddedResource>
 
-			<GeometryShaders Include="Resources\Shaders\*.geom" />
-			<UpToDateCheckInput Include="@(GeometryShaders)" />
+			<GeometryShaders Include="Resources\Shaders\*.geom"/>
+			<UpToDateCheckInput Include="@(GeometryShaders)"/>
 			<EmbeddedResource Include="@(GeometryShaders)">
 				<LogicalName>GeometryShaders.%(FileName)</LogicalName>
 			</EmbeddedResource>
 
-			<FragmentShaders Include="Resources\Shaders\*.frag" />
-			<UpToDateCheckInput Include="@(FragmentShaders)" />
+			<FragmentShaders Include="Resources\Shaders\*.frag"/>
+			<UpToDateCheckInput Include="@(FragmentShaders)"/>
 			<EmbeddedResource Include="@(FragmentShaders)">
 				<LogicalName>FragmentShaders.%(FileName)</LogicalName>
 			</EmbeddedResource>

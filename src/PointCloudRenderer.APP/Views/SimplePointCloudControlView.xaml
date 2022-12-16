@@ -12,6 +12,6 @@
 				<Run Text="point size:"/>
 				<Run Text="{Binding PointSize}"/>
 		</TextBlock>
-		<Slider Minimum="0.01" Maximum="0.7" Ticks="100" Value="{Binding PointSize}" />
+		<Slider Minimum="0.01" Maximum="0.7" Ticks="100" Value="{Binding PointSize}"/>
 	</StackPanel>
 </UserControl>

@@ -1,4 +1,5 @@
 ﻿using PointCloudRenderer.APP.Scenes;
+using PointCloudRenderer.Data;
 
 namespace PointCloudRenderer.APP.ViewModels;
 

@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
 using PointCloudRenderer.APP.Services;
 using PointCloudRenderer.APP.Helpers;
 using PointCloudRenderer.Data;
 using Microsoft.Win32;
+using System.Windows;
 
 namespace PointCloudRenderer.APP.ViewModels;
 
@@ -36,6 +36,7 @@ public sealed partial class MainWindowViewModel : BaseViewModel
 			_cloud = value;
 			if (value is not null)
 				NamedSceneViewModel?.Object.LoadCloud(value);
+			OnPropertyChanged();
 		}
 	}
 
