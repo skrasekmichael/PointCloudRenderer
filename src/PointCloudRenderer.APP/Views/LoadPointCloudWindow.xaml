@@ -3,11 +3,12 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:c="clr-namespace:PointCloudRenderer.APP.Components"
 		xmlns:viewModels="clr-namespace:PointCloudRenderer.APP.ViewModels"
 		xmlns:enums="clr-namespace:PointCloudRenderer.Data.Enums;assembly=PointCloudRenderer.Data"
 		d:DataContext="{d:DesignInstance Type=viewModels:LoadPointCloudWindowViewModel}"
 		mc:Ignorable="d"
-		Title="LoadPointCloudWindow" Height="450" Width="800"
+		Title="File configuration" Height="450" Width="600"
 		x:Name="Window">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -68,6 +69,7 @@
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+			<c:LoadingSpinner Visibility="{Binding IsLoading, Converter={StaticResource Bool2VisibilityConverter}}"/>
 			<Button Content="OK" Padding="8" Margin="8,8,0,8"
 					Command="{Binding LoadCloudCommand}"
 					CommandParameter="{Binding ElementName=Window}"/>

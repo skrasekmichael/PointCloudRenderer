@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using PointCloudRenderer.APP.Helpers;
 using PointCloudRenderer.Data;
 using PointCloudRenderer.Data.Converters;
@@ -11,6 +12,9 @@ namespace PointCloudRenderer.APP.ViewModels;
 
 public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 {
+	[ObservableProperty]
+	private bool isLoading = false;
+
 	public PointCloud? Cloud { get; private set; }
 	public LineFormatOptions Options { get; } = new();
 	public ObservableCollection<string> Lines { get; } = new();
@@ -53,30 +57,41 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 	}
 
 	[RelayCommand]
-	public void LoadCloud(Window? window)
+	public async Task LoadCloudAsync(Window? window)
 	{
-		var builder = new LineParserBuilder(Options);
-
-		try
+		var close = await Task.Run(() =>
 		{
-			foreach (var type in ScalarTypes)
+			IsLoading = true;
+			var builder = new LineParserBuilder(Options);
+
+			try
 			{
-				if (type.DataType.Object == typeof(FloatScalar))
-					builder.AddScalar<FloatScalar>(type.Name);
-				else if (type.DataType.Object == typeof(IntScalar))
-					builder.AddScalar<IntScalar>(type.Name);
+				foreach (var type in ScalarTypes)
+				{
+					if (type.DataType.Object == typeof(FloatScalar))
+						builder.AddScalar<FloatScalar>(type.Name);
+					else if (type.DataType.Object == typeof(IntScalar))
+						builder.AddScalar<IntScalar>(type.Name);
+				}
+
+				(Cloud, _) = cloudReader!.ParsePointCloud(builder.Build());
+				return true;
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
 			}
 
+			return false;
+		});
 
-			(Cloud, _) = cloudReader!.ParsePointCloud(builder.Build());
-
+		if (close)
+		{
 			window!.DialogResult = true;
 			window.Close();
 		}
-		catch (Exception ex)
-		{
-			MessageBox.Show(ex.Message);
-		}
+
+		IsLoading = false;
 	}
 
 	[RelayCommand]
