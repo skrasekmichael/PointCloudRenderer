@@ -15,6 +15,9 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 	[ObservableProperty]
 	private bool isLoading = false;
 
+	[ObservableProperty]
+	private Range lineRange;
+
 	public PointCloud? Cloud { get; private set; }
 	public LineFormatOptions Options { get; } = new();
 	public ObservableCollection<string> Lines { get; } = new();
@@ -29,11 +32,11 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 	public void Load(string path)
 	{
 		cloudReader = new PointCloudReader(path);
-		var range = cloudReader.GetRange(5);
+		LineRange = cloudReader.GetRange(5);
 
-		var count = cloudReader.GetNumberOfScalars(range, Options).Max();
+		var count = cloudReader.GetNumberOfScalars(LineRange, Options).Max();
 
-		var scalars = cloudReader.GetScalars(count, range, Options);
+		var scalars = cloudReader.GetScalars(count, LineRange, Options);
 		int start = (int)ScalarName.X;
 
 		ScalarTypes.Clear();
@@ -50,7 +53,7 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 		}
 
 		Lines.Clear();
-		foreach (var line in cloudReader.GetLines(range))
+		foreach (var line in cloudReader.GetLines(LineRange))
 		{
 			Lines.Add(line);
 		}

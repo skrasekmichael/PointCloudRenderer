@@ -18,10 +18,17 @@
 		
 		<StackPanel>
 			<GroupBox Header="Configuration">
-				<ComboBox ItemsSource="{Binding Source={x:Type enums:Separator}, Converter={StaticResource EnumType2ArrayConverter}}"
-						  SelectedValue="{Binding Options.Separator}"/>
+				<ComboBox ItemsSource="{Binding Source={x:Type enums:Separator}, Converter={StaticResource EnumType2ArrayConverter}}" SelectedValue="{Binding Options.Separator}"/>
 			</GroupBox>
-			<GroupBox Header="Lines 1-5">
+			<GroupBox>
+				<GroupBox.Header>
+					<TextBlock>
+						<Run Text="Lines"/>
+						<Run Text="{Binding LineRange.Start, Mode=OneWay}"/>
+						<Run Text="-"/>
+						<Run Text="{Binding LineRange.End, Mode=OneWay}"/>
+					</TextBlock>
+				</GroupBox.Header>
 				<ItemsControl ItemsSource="{Binding Lines}">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
@@ -45,10 +52,8 @@
 					<ListView.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Vertical">
-								<ComboBox ItemsSource="{Binding ElementName=Window, Path=DataContext.DataTypes}"
-									  SelectedValue="{Binding DataType}"/>
-								<ComboBox ItemsSource="{Binding Source={x:Type enums:ScalarName}, Converter={StaticResource EnumType2ArrayConverter}}" 
-									  SelectedValue="{Binding Name}"/>
+								<ComboBox ItemsSource="{Binding ElementName=Window, Path=DataContext.DataTypes}" SelectedValue="{Binding DataType}"/>
+								<ComboBox ItemsSource="{Binding Source={x:Type enums:ScalarName}, Converter={StaticResource EnumType2ArrayConverter}}" SelectedValue="{Binding Name}"/>
 								<ItemsControl ItemsSource="{Binding Scalars}">
 									<ItemsControl.ItemsPanel>
 										<ItemsPanelTemplate>

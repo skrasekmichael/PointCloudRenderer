@@ -15,7 +15,7 @@
 				<Run Text="{Binding Scene.OrbitAngleX}"/>
 				<Run Text="rads"/>
 			</TextBlock>
-			<Slider Name="SL" Minimum="0" Maximum="{StaticResource TAU}" Ticks="360"
+			<Slider Minimum="0" Maximum="{StaticResource TAU}" Ticks="360"
 					ext:SliderExtensions.DragStartedCommand="{Binding SetAxisVisibilityCommand}"
 					ext:SliderExtensions.DragStartedCommandParameter="{StaticResource True}"
 					ext:SliderExtensions.DragCompletedCommand="{Binding SetAxisVisibilityCommand}"
