@@ -31,10 +31,15 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 
 	public async Task LoadAsync(string path)
 	{
+		await Task.Run(() => cloudReader = new PointCloudReader(path));
+		await LoadScalarConfiguration();
+	}
+
+	private async Task LoadScalarConfiguration()
+	{
 		var scalars = await Task.Run(() =>
 		{
-			cloudReader = new PointCloudReader(path);
-			LineRange = cloudReader.GetRange(5);
+			LineRange = cloudReader!.GetRange(5);
 
 			var count = cloudReader.GetNumberOfScalars(LineRange, Options).Max();
 			var scalars = cloudReader.GetScalars(count, LineRange, Options);
@@ -109,6 +114,9 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 
 	[RelayCommand]
 	public void Cancel(Window? window) => window?.Close();
+
+	[RelayCommand]
+	public async Task ChangedSeparator() => await LoadScalarConfiguration();
 
 	public interface IScalarColumn { }
 

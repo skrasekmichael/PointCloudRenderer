@@ -3,6 +3,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
 		xmlns:c="clr-namespace:PointCloudRenderer.APP.Components"
 		xmlns:viewModels="clr-namespace:PointCloudRenderer.APP.ViewModels"
 		xmlns:enums="clr-namespace:PointCloudRenderer.Data.Enums;assembly=PointCloudRenderer.Data"
@@ -24,7 +25,13 @@
 		
 		<StackPanel>
 			<GroupBox Header="Configuration" Padding="5">
-				<ComboBox ItemsSource="{Binding Source={x:Type enums:Separator}, Converter={StaticResource EnumType2ArrayConverter}}" SelectedValue="{Binding Options.Separator}"/>
+				<ComboBox ItemsSource="{Binding Source={x:Type enums:Separator}, Converter={StaticResource EnumType2ArrayConverter}}" SelectedValue="{Binding Options.Separator}">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="SelectionChanged">
+							<i:InvokeCommandAction Command="{Binding ChangedSeparatorCommand}"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</ComboBox>
 			</GroupBox>
 			<GroupBox Header="File content preview" Padding="5">
 				<ItemsControl ItemsSource="{Binding Lines}">
