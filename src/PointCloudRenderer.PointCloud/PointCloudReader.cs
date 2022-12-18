@@ -9,6 +9,8 @@ namespace PointCloudRenderer.Data;
 
 public sealed class PointCloudReader
 {
+	public sealed record Line(int LineNum, string Data);
+
 	private readonly string[] lines;
 
 	public PointCloudReader(string path)
@@ -38,7 +40,7 @@ public sealed class PointCloudReader
 		}
 	}
 
-	public List<(int LineNum, string Scalar)[]> GetScalars(int numOfScalars, Range range, LineFormatOptions options)
+	public List<Line[]> GetScalars(int numOfScalars, Range range, LineFormatOptions options)
 	{
 		var builder = new LineParserBuilder(options);
 
@@ -48,24 +50,24 @@ public sealed class PointCloudReader
 		var parser = builder.Build();
 		var lines = this.lines[range];
 
-		var scalars = new List<(int, string)[]>(numOfScalars);
+		var scalars = new List<Line[]>(numOfScalars);
 
 		for (int i = 0; i < numOfScalars; i++)
 		{
-			scalars.Add(new (int, string)[lines.Length]);
+			scalars.Add(new Line[lines.Length]);
 		}
 
 		for (int i = 0; i < lines.Length; i++)
 		{
 			var vals = parser.GetScalars(lines[i]);
-			for (int j = 0; j < vals.Length; j++)
-				scalars[j][i] = new(i + range.Start.Value, vals[j]);
+			for (int j = 0; j < numOfScalars; j++)
+				scalars[j][i] = new Line(i + range.Start.Value, j < vals.Length ? vals[j] : string.Empty);
 		}
 
 		return scalars;
 	}
 
-	public string[] GetLines(Range range) => lines[range];
+	public IEnumerable<Line> GetLines(Range range) => lines[range].Select((line, index) => new Line(range.Start.Value + index, line));
 
 	public PointCloud GetPointCloud(LineParser parser) => ParsePointCloud(parser).Cloud;
 	public (PointCloud Cloud, IEnumerable<string> Missing) ParsePointCloud(LineParser parser)

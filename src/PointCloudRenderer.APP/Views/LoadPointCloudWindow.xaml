@@ -10,6 +10,12 @@
 		mc:Ignorable="d"
 		Title="File configuration" Height="450" Width="600"
 		x:Name="Window">
+	<Window.Resources>
+		<DataTemplate DataType="{x:Type viewModels:LoadPointCloudWindowViewModel+ValueType}">
+			
+		</DataTemplate>
+	</Window.Resources>
+
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"/>
@@ -17,40 +23,49 @@
 		</Grid.RowDefinitions>
 		
 		<StackPanel>
-			<GroupBox Header="Configuration">
+			<GroupBox Header="Configuration" Padding="5">
 				<ComboBox ItemsSource="{Binding Source={x:Type enums:Separator}, Converter={StaticResource EnumType2ArrayConverter}}" SelectedValue="{Binding Options.Separator}"/>
 			</GroupBox>
-			<GroupBox>
-				<GroupBox.Header>
-					<TextBlock>
-						<Run Text="Lines"/>
-						<Run Text="{Binding LineRange.Start, Mode=OneWay}"/>
-						<Run Text="-"/>
-						<Run Text="{Binding LineRange.End, Mode=OneWay}"/>
-					</TextBlock>
-				</GroupBox.Header>
+			<GroupBox Header="File content preview" Padding="5">
 				<ItemsControl ItemsSource="{Binding Lines}">
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<StackPanel Orientation="Vertical" />
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding}"/>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Foreground="Gray">
+									<Run Text="line "/><Run Text="{Binding LineNum}"/><Run Text=": "/>
+								</TextBlock>
+								<TextBlock Text="{Binding Data}"/>
+							</StackPanel>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 			</GroupBox>
-			<GroupBox Header="Scalar configuration">
+			<GroupBox Header="Scalar configuration" Padding="5">
 				<ListView ItemsSource="{Binding ScalarTypes}">
 					<ListView.ItemsPanel>
 						<ItemsPanelTemplate>
 							<StackPanel Orientation="Horizontal" />
 						</ItemsPanelTemplate>
 					</ListView.ItemsPanel>
-					<ListView.ItemTemplate>
-						<DataTemplate>
+					<ListView.Resources>
+						<DataTemplate DataType="{x:Type viewModels:LoadPointCloudWindowViewModel+LineIndexes}">
+							<StackPanel Orientation="Vertical">
+								<ComboBox Visibility="Hidden" Width="0"/>
+								<ComboBox Visibility="Hidden" Width="0"/>
+								<ItemsControl ItemsSource="{Binding Lines}">
+									<ItemsControl.ItemTemplate>
+										<DataTemplate>
+											<StackPanel Orientation="Horizontal">
+												<TextBlock Foreground="Gray" Text="line "/>
+												<TextBlock Foreground="Gray" Text="{Binding}"/>
+												<TextBlock Foreground="Gray" Text=": "/>
+											</StackPanel>
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+								</ItemsControl>
+							</StackPanel>
+						</DataTemplate>
+						<DataTemplate DataType="{x:Type viewModels:LoadPointCloudWindowViewModel+ValueType}">
 							<StackPanel Orientation="Vertical">
 								<ComboBox ItemsSource="{Binding ElementName=Window, Path=DataContext.DataTypes}" SelectedValue="{Binding DataType}"/>
 								<ComboBox ItemsSource="{Binding Source={x:Type enums:ScalarName}, Converter={StaticResource EnumType2ArrayConverter}}" SelectedValue="{Binding Name}"/>
@@ -68,7 +83,7 @@
 								</ItemsControl>
 							</StackPanel>
 						</DataTemplate>
-					</ListView.ItemTemplate>
+					</ListView.Resources>
 				</ListView>
 			</GroupBox>
 		</StackPanel>

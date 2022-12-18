@@ -20,8 +20,8 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 
 	public PointCloud? Cloud { get; private set; }
 	public LineFormatOptions Options { get; } = new();
-	public ObservableCollection<string> Lines { get; } = new();
-	public ObservableCollection<ValueType> ScalarTypes { get; } = new();
+	public ObservableCollection<PointCloudReader.Line> Lines { get; } = new();
+	public ObservableCollection<IScalarColumn> ScalarTypes { get; } = new();
 	public NamedObject<Type>[] DataTypes { get; } = {
 		new(typeof(FloatScalar), "Float"),
 		new(typeof(IntScalar), "Int")
@@ -44,13 +44,18 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 		int start = (int)ScalarName.X;
 
 		ScalarTypes.Clear();
+		ScalarTypes.Add(new LineIndexes()
+		{
+			Lines = Enumerable.Range(LineRange.Start.Value, LineRange.End.Value - LineRange.Start.Value)
+		});
+
 		foreach (var scalar in scalars)
 		{
-			ScalarTypes.Add(new()
+			ScalarTypes.Add(new ValueType()
 			{
 				Name = (ScalarName)start,
 				DataType = DataTypes.First(),
-				Scalars = scalar.Select(x => x.Scalar).ToArray()
+				Scalars = scalar.Select(x => x.Data).ToArray()
 			});
 
 			start = Math.Min(start + 1, (int)ScalarName.Other);
@@ -58,9 +63,7 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 
 		Lines.Clear();
 		foreach (var line in cloudReader!.GetLines(LineRange))
-		{
 			Lines.Add(line);
-		}
 	}
 
 	[RelayCommand]
@@ -73,12 +76,15 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 
 			try
 			{
-				foreach (var type in ScalarTypes)
+				foreach (var t in ScalarTypes)
 				{
-					if (type.DataType.Object == typeof(FloatScalar))
-						builder.AddScalar<FloatScalar>(type.Name);
-					else if (type.DataType.Object == typeof(IntScalar))
-						builder.AddScalar<IntScalar>(type.Name);
+					if (t is ValueType type)
+					{
+						if (type.DataType.Object == typeof(FloatScalar))
+							builder.AddScalar<FloatScalar>(type.Name);
+						else if (type.DataType.Object == typeof(IntScalar))
+							builder.AddScalar<IntScalar>(type.Name);
+					}
 				}
 
 				(Cloud, _) = cloudReader!.ParsePointCloud(builder.Build());
@@ -104,10 +110,17 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 	[RelayCommand]
 	public void Cancel(Window? window) => window?.Close();
 
-	public sealed record ValueType
+	public interface IScalarColumn { }
+
+	public sealed record ValueType : IScalarColumn
 	{
 		public ScalarName Name { get; set; }
 		public required NamedObject<Type> DataType { get; set; }
 		public string[]? Scalars { get; init; }
+	}
+
+	public sealed record LineIndexes : IScalarColumn
+	{
+		public required IEnumerable<int> Lines { get; init; }
 	}
 }
