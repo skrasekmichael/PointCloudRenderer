@@ -13,10 +13,10 @@ public sealed class LoadPointCloudService
 		this.serviceProvider = serviceProvider;
 	}
 
-	public PointCloud? Load(string path)
+	public async Task<PointCloud?> LoadAsync(string path)
 	{
 		var window = serviceProvider.GetRequiredService<LoadPointCloudWindow>();
-		window.ViewModel.Load(path);
+		await window.ViewModel.LoadAsync(path);
 
 		if (window.ShowDialog() == true)
 			return window.ViewModel.Cloud;

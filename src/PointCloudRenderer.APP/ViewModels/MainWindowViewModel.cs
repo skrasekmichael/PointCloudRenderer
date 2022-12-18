@@ -51,14 +51,14 @@ public sealed partial class MainWindowViewModel : BaseViewModel
 	}
 
 	[RelayCommand]
-	public void OpenFile()
+	public async Task OpenFileAsync()
 	{
 		ofd.Filter = ".xyz|*.xyz";
 		ofd.Multiselect = false;
 
 		if (ofd.ShowDialog() == true)
 		{
-			var cloud = loadPointCloudService.Load(ofd.FileName);
+			var cloud = await loadPointCloudService.LoadAsync(ofd.FileName);
 			if (cloud is not null)
 				Cloud = cloud;
 		}

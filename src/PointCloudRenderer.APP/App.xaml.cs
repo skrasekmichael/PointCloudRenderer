@@ -53,7 +53,7 @@ public sealed partial class App : Application
 		if (e.Args.Length > 0)
 		{
 			var loader = host.Services.GetRequiredService<LoadPointCloudService>();
-			var cloud = loader.Load(e.Args[0]);
+			var cloud = await loader.LoadAsync(e.Args[0]);
 
 			if (cloud is null)
 				Environment.Exit(0);

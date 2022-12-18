@@ -29,14 +29,18 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 
 	private PointCloudReader? cloudReader;
 
-	public void Load(string path)
+	public async Task LoadAsync(string path)
 	{
-		cloudReader = new PointCloudReader(path);
-		LineRange = cloudReader.GetRange(5);
+		var scalars = await Task.Run(() =>
+		{
+			cloudReader = new PointCloudReader(path);
+			LineRange = cloudReader.GetRange(5);
 
-		var count = cloudReader.GetNumberOfScalars(LineRange, Options).Max();
+			var count = cloudReader.GetNumberOfScalars(LineRange, Options).Max();
+			var scalars = cloudReader.GetScalars(count, LineRange, Options);
+			return scalars;
+		});
 
-		var scalars = cloudReader.GetScalars(count, LineRange, Options);
 		int start = (int)ScalarName.X;
 
 		ScalarTypes.Clear();
@@ -53,7 +57,7 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 		}
 
 		Lines.Clear();
-		foreach (var line in cloudReader.GetLines(LineRange))
+		foreach (var line in cloudReader!.GetLines(LineRange))
 		{
 			Lines.Add(line);
 		}
