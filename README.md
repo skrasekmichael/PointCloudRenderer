@@ -7,6 +7,7 @@ Project for [PGR](https://www.fit.vut.cz/study/course/PGR/.en) 2022 at [BUT FIT]
 ![rotating sphere](/img/sphere1.png)
 ![sphere Y -> G](/img/sphere3.png)
 ![complex point cloud](/img/complex2.png)
+![complex point cloud title](/img/complex3.png)
 
 ### Opening ASCII Point Cloud 
 
