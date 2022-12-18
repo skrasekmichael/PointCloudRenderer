@@ -73,15 +73,13 @@
 						<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.RotateCommand}"/>
 					</i:EventTrigger>
 					<i:EventTrigger EventName="MouseLeave">
-						<i:ChangePropertyAction TargetObject="{Binding NamedSceneViewModel.Object}" PropertyName="IsRotating" Value="{StaticResource False}"/>
-						<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.SetAxisVisibilityCommand}" CommandParameter="{StaticResource False}"/>
+						<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.StopRotatingCommand}"/>
 					</i:EventTrigger>
 					<i:EventTrigger EventName="MouseLeftButtonDown">
 						<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.StartRotatingCommand}"/>
 					</i:EventTrigger>
 					<i:EventTrigger EventName="MouseLeftButtonUp">
-						<i:ChangePropertyAction TargetObject="{Binding NamedSceneViewModel.Object}" PropertyName="IsRotating" Value="{StaticResource False}"/>
-						<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.SetAxisVisibilityCommand}" CommandParameter="{StaticResource False}"/>
+						<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.StopRotatingCommand}"/>
 					</i:EventTrigger>
 					<i:EventTrigger EventName="SizeChanged">
 						<i:InvokeCommandAction Command="{Binding NamedSceneViewModel.Object.SetCanvasWidthCommand}" EventArgsParameterPath="NewSize.Width"/>

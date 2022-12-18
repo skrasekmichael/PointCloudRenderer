@@ -34,23 +34,26 @@ public partial class BaseSceneViewModel : BaseViewModel
 		SX = MouseX;
 		SY = MouseY;
 
-		SetAxisVisibility(true);
 		IsRotating = true;
+		SetAxisVisibility(true);
+		Scene.StartRotaring();
 	}
 
 	[RelayCommand]
 	public void Rotate()
 	{
 		if (IsRotating)
+			Scene.Rotate(SX, SY, MouseX, MouseY);
+	}
+
+	[RelayCommand]
+	public void StopRotating()
+	{
+		if (IsRotating)
 		{
-			var dx = (float)(MouseX - SX) * 0.01f;
-			var dy = (float)(MouseY - SY) * 0.01f;
-
-			SX = MouseX;
-			SY = MouseY;
-
-			Scene.OrbitAngleX = (Scene.OrbitAngleX + dx) % MathF.Tau + MathF.Tau;
-			Scene.OrbitAngleY = (Scene.OrbitAngleY + dy) % MathF.Tau + MathF.Tau;
+			IsRotating = false;
+			Scene.StopRotating();
+			SetAxisVisibility(false);
 		}
 	}
 

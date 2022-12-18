@@ -9,35 +9,50 @@
 			 mc:Ignorable="d" 
 			 d:DesignHeight="450" d:DesignWidth="800">
 	<StackPanel>
-		<StackPanel Margin="3">
+		<StackPanel Margin="5">
 			<TextBlock>
-				<Run Text="orbit angle x:"/>
-				<Run Text="{Binding Scene.OrbitAngleX}"/>
-				<Run Text="rads"/>
+				<Run Text="x:"/>
+				<Run Text="{Binding Scene.QuaternionX}"/>
 			</TextBlock>
-			<Slider Minimum="0" Maximum="{StaticResource TAU}" Ticks="360"
+			<Slider Minimum="-1" Maximum="1"
 					ext:SliderExtensions.DragStartedCommand="{Binding SetAxisVisibilityCommand}"
 					ext:SliderExtensions.DragStartedCommandParameter="{StaticResource True}"
 					ext:SliderExtensions.DragCompletedCommand="{Binding SetAxisVisibilityCommand}"
 					ext:SliderExtensions.DragCompletedCommandParameter="{StaticResource False}"
-					Value="{Binding Scene.OrbitAngleX, Converter={StaticResource RadianAngle2DomainConverter}}"/>
-		</StackPanel>
-
-		<StackPanel Margin="3">
+					Value="{Binding Scene.QuaternionX}"/>
 			<TextBlock>
-				<Run Text="orbit angle y:"/>
-				<Run Text="{Binding Scene.OrbitAngleY}"/>
-				<Run Text="rads"/>
+				<Run Text="y:"/>
+				<Run Text="{Binding Scene.QuaternionY}"/>
 			</TextBlock>
-			<Slider Minimum="0" Maximum="{StaticResource TAU}" Ticks="360"
+			<Slider Minimum="-1" Maximum="1"
 					ext:SliderExtensions.DragStartedCommand="{Binding SetAxisVisibilityCommand}"
 					ext:SliderExtensions.DragStartedCommandParameter="{StaticResource True}"
 					ext:SliderExtensions.DragCompletedCommand="{Binding SetAxisVisibilityCommand}"
 					ext:SliderExtensions.DragCompletedCommandParameter="{StaticResource False}"
-					Value="{Binding Scene.OrbitAngleY, Converter={StaticResource RadianAngle2DomainConverter}}"/>
+					Value="{Binding Scene.QuaternionY}"/>
+			<TextBlock>
+				<Run Text="z:"/>
+				<Run Text="{Binding Scene.QuaternionZ}"/>
+			</TextBlock>
+			<Slider Minimum="-1" Maximum="1"
+					ext:SliderExtensions.DragStartedCommand="{Binding SetAxisVisibilityCommand}"
+					ext:SliderExtensions.DragStartedCommandParameter="{StaticResource True}"
+					ext:SliderExtensions.DragCompletedCommand="{Binding SetAxisVisibilityCommand}"
+					ext:SliderExtensions.DragCompletedCommandParameter="{StaticResource False}"
+					Value="{Binding Scene.QuaternionZ}"/>
+			<TextBlock>
+				<Run Text="w:"/>
+				<Run Text="{Binding Scene.QuaternionW}"/>
+			</TextBlock>
+			<Slider Minimum="-1" Maximum="1"
+					ext:SliderExtensions.DragStartedCommand="{Binding SetAxisVisibilityCommand}"
+					ext:SliderExtensions.DragStartedCommandParameter="{StaticResource True}"
+					ext:SliderExtensions.DragCompletedCommand="{Binding SetAxisVisibilityCommand}"
+					ext:SliderExtensions.DragCompletedCommandParameter="{StaticResource False}"
+					Value="{Binding Scene.QuaternionW}"/>
 		</StackPanel>
 
-		<StackPanel Margin="3">
+		<StackPanel Margin="5">
 			<TextBlock>
 				<Run Text="axis size:"/>
 				<Run Text="{Binding Scene.AxisSize}"/>
@@ -50,7 +65,7 @@
 					Value="{Binding Scene.AxisSize}"/>
 		</StackPanel>
 
-		<TextBlock Margin="3">
+		<TextBlock Margin="5">
 			<Run Text="zoom level:"/>
 			<Run Text="{Binding Scene.ZoomLevel}"/>
 		</TextBlock>
