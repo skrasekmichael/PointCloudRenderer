@@ -5,35 +5,54 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
 		xmlns:c="clr-namespace:PointCloudRenderer.APP.Components"
+		xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
 		xmlns:viewModels="clr-namespace:PointCloudRenderer.APP.ViewModels"
 		xmlns:enums="clr-namespace:PointCloudRenderer.Data.Enums;assembly=PointCloudRenderer.Data"
 		d:DataContext="{d:DesignInstance Type=viewModels:LoadPointCloudWindowViewModel}"
 		mc:Ignorable="d"
-		Title="File configuration" Height="450" Width="600"
+		Title="File configuration" Height="500" Width="600"
 		x:Name="Window">
-	<Window.Resources>
-		<DataTemplate DataType="{x:Type viewModels:LoadPointCloudWindowViewModel+ValueType}">
-			
-		</DataTemplate>
-	</Window.Resources>
-
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"/>
 			<RowDefinition Height="auto"/>
 		</Grid.RowDefinitions>
-		
+
 		<StackPanel>
-			<GroupBox Header="Configuration" Padding="5">
-				<ComboBox ItemsSource="{Binding Source={x:Type enums:Separator}, Converter={StaticResource EnumType2ArrayConverter}}" SelectedValue="{Binding Options.Separator}">
-					<i:Interaction.Triggers>
-						<i:EventTrigger EventName="SelectionChanged">
-							<i:InvokeCommandAction Command="{Binding ChangedSeparatorCommand}"/>
-						</i:EventTrigger>
-					</i:Interaction.Triggers>
-				</ComboBox>
+			<TextBlock Padding="5" Text="{Binding FilePath}"/>
+			<GroupBox Header="Configuration" Padding="2">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="auto"/>
+						<ColumnDefinition Width="100"/>
+					</Grid.ColumnDefinitions>
+
+					<Grid.RowDefinitions>
+						<RowDefinition/>
+						<RowDefinition/>
+					</Grid.RowDefinitions>
+
+					<TextBlock Text="scalar separator" Margin="3" VerticalAlignment="Center"/>
+					<ComboBox Grid.Column="1" Margin="3" SelectedValue="{Binding Options.Separator}"
+							  ItemsSource="{Binding Source={x:Type enums:Separator}, Converter={StaticResource EnumType2ArrayConverter}}">
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="SelectionChanged">
+								<i:InvokeCommandAction Command="{Binding LoadScalarConfigurationCommand}"/>
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+					</ComboBox>
+
+					<TextBlock Grid.Row="1" Text="segment offset" Margin="3" VerticalAlignment="Center"/>
+					<extToolkit:UIntegerUpDown Grid.Row="1" Grid.Column="1" Minimum="0" Margin="3" Value="{Binding LineOffset}">
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="ValueChanged">
+								<i:InvokeCommandAction Command="{Binding LoadScalarConfigurationCommand}"/>
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+					</extToolkit:UIntegerUpDown>
+				</Grid>
 			</GroupBox>
-			<GroupBox Header="File content preview" Padding="5">
+			<GroupBox Header="File segment" Padding="5">
 				<ItemsControl ItemsSource="{Binding Lines}">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
@@ -72,7 +91,7 @@
 								</ItemsControl>
 							</StackPanel>
 						</DataTemplate>
-						<DataTemplate DataType="{x:Type viewModels:LoadPointCloudWindowViewModel+ValueType}">
+						<DataTemplate DataType="{x:Type viewModels:LoadPointCloudWindowViewModel+SegmentColumn}">
 							<StackPanel Orientation="Vertical">
 								<ComboBox ItemsSource="{Binding ElementName=Window, Path=DataContext.DataTypes}" SelectedValue="{Binding DataType}"/>
 								<ComboBox ItemsSource="{Binding Source={x:Type enums:ScalarName}, Converter={StaticResource EnumType2ArrayConverter}}" SelectedValue="{Binding Name}"/>

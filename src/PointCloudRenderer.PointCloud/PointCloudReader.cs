@@ -18,7 +18,7 @@ public sealed class PointCloudReader
 		lines = File.ReadAllLines(path);
 	}
 
-	public Range GetRange(int len) => new(0, Math.Clamp(len, 0, lines.Length - 1));
+	public Range GetRange(int start, int len) => new(start, start + Math.Clamp(len, 0, lines.Length - 1 - start));
 
 	public IEnumerable<int> GetNumberOfScalars(Range range, LineFormatOptions options)
 	{

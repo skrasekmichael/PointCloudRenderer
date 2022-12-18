@@ -7,6 +7,7 @@ using PointCloudRenderer.Data.Enums;
 using PointCloudRenderer.Data.Parser;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.IO;
 
 namespace PointCloudRenderer.APP.ViewModels;
 
@@ -16,12 +17,15 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 	private bool isLoading = false;
 
 	[ObservableProperty]
-	private Range lineRange;
+	private int lineOffset = 0;
+
+	[ObservableProperty]
+	private string filePath = string.Empty;
 
 	public PointCloud? Cloud { get; private set; }
 	public LineFormatOptions Options { get; } = new();
 	public ObservableCollection<PointCloudReader.Line> Lines { get; } = new();
-	public ObservableCollection<IScalarColumn> ScalarTypes { get; } = new();
+	public ObservableCollection<ISegmentColumn> ScalarTypes { get; } = new();
 	public NamedObject<Type>[] DataTypes { get; } = {
 		new(typeof(FloatScalar), "Float"),
 		new(typeof(IntScalar), "Int")
@@ -31,19 +35,20 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 
 	public async Task LoadAsync(string path)
 	{
+		filePath = Path.GetFullPath(path);
 		await Task.Run(() => cloudReader = new PointCloudReader(path));
-		await LoadScalarConfiguration();
+		await LoadScalarConfigurationAsync();
 	}
 
-	private async Task LoadScalarConfiguration()
+	[RelayCommand]
+	private async Task LoadScalarConfigurationAsync()
 	{
-		var scalars = await Task.Run(() =>
+		var (lineRange, scalars) = await Task.Run(() =>
 		{
-			LineRange = cloudReader!.GetRange(5);
-
-			var count = cloudReader.GetNumberOfScalars(LineRange, Options).Max();
-			var scalars = cloudReader.GetScalars(count, LineRange, Options);
-			return scalars;
+			var lineRange = cloudReader!.GetRange(LineOffset, 5);
+			var count = cloudReader.GetNumberOfScalars(lineRange, Options).Max();
+			var scalars = cloudReader.GetScalars(count, lineRange, Options);
+			return (lineRange, scalars);
 		});
 
 		int start = (int)ScalarName.X;
@@ -51,23 +56,23 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 		ScalarTypes.Clear();
 		ScalarTypes.Add(new LineIndexes()
 		{
-			Lines = Enumerable.Range(LineRange.Start.Value, LineRange.End.Value - LineRange.Start.Value)
+			Lines = Enumerable.Range(lineRange.Start.Value, lineRange.End.Value - lineRange.Start.Value)
 		});
 
 		foreach (var scalar in scalars)
 		{
-			ScalarTypes.Add(new ValueType()
+			ScalarTypes.Add(new SegmentColumn()
 			{
 				Name = (ScalarName)start,
 				DataType = DataTypes.First(),
-				Scalars = scalar.Select(x => x.Data).ToArray()
+				Scalars = scalar.Select(x => x.Data)
 			});
 
 			start = Math.Min(start + 1, (int)ScalarName.Other);
 		}
 
 		Lines.Clear();
-		foreach (var line in cloudReader!.GetLines(LineRange))
+		foreach (var line in cloudReader!.GetLines(lineRange))
 			Lines.Add(line);
 	}
 
@@ -83,7 +88,7 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 			{
 				foreach (var t in ScalarTypes)
 				{
-					if (t is ValueType type)
+					if (t is SegmentColumn type)
 					{
 						if (type.DataType.Object == typeof(FloatScalar))
 							builder.AddScalar<FloatScalar>(type.Name);
@@ -115,19 +120,16 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 	[RelayCommand]
 	public void Cancel(Window? window) => window?.Close();
 
-	[RelayCommand]
-	public async Task ChangedSeparator() => await LoadScalarConfiguration();
+	public interface ISegmentColumn { }
 
-	public interface IScalarColumn { }
-
-	public sealed record ValueType : IScalarColumn
+	public sealed record SegmentColumn : ISegmentColumn
 	{
 		public ScalarName Name { get; set; }
 		public required NamedObject<Type> DataType { get; set; }
-		public string[]? Scalars { get; init; }
+		public required IEnumerable<string> Scalars { get; init; }
 	}
 
-	public sealed record LineIndexes : IScalarColumn
+	public sealed record LineIndexes : ISegmentColumn
 	{
 		public required IEnumerable<int> Lines { get; init; }
 	}
