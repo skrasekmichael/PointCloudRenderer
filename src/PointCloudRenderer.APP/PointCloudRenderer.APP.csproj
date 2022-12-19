@@ -19,7 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\PointCloudRenderer.PointCloud\PointCloudRenderer.Data.csproj" />
+		<ProjectReference Include="..\PointCloudRenderer.Data\PointCloudRenderer.Data.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

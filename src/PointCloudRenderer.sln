@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointCloudRenderer.APP", "PointCloudRenderer.APP\PointCloudRenderer.APP.csproj", "{FBC47932-2D27-4FE7-A8B6-0E64B92A5922}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointCloudRenderer.Data", "PointCloudRenderer.PointCloud\PointCloudRenderer.Data.csproj", "{12743F67-A907-4CE1-BA11-F2E7868CB6E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointCloudRenderer.Data", "PointCloudRenderer.Data\PointCloudRenderer.Data.csproj", "{12743F67-A907-4CE1-BA11-F2E7868CB6E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
