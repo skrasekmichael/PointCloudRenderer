@@ -7,7 +7,6 @@ using PointCloudRenderer.Data.Enums;
 using PointCloudRenderer.Data.Parser;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.IO;
 
 namespace PointCloudRenderer.APP.ViewModels;
 
@@ -35,7 +34,7 @@ public sealed partial class LoadPointCloudWindowViewModel : BaseViewModel
 
 	public async Task LoadAsync(string path)
 	{
-		filePath = Path.GetFullPath(path);
+		filePath = path;
 		await Task.Run(() => cloudReader = new PointCloudReader(path));
 		await LoadScalarConfigurationAsync();
 	}

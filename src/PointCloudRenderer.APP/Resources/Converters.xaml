@@ -6,5 +6,7 @@
 	<converters:RadianAngleToDomainConverter x:Key="RadianAngle2DomainConverter"/>
 	<converters:NumberToCustomFormatConverter x:Key="Number2CustomFormatConverter"/>
 	<converters:BoolToVisibilityConverter x:Key="Bool2VisibilityConverter"/>
+	<converters:NumberToBoolConverter x:Key="Number2BoolConverter"/>
+	<converters:StringToReducedStringConverter x:Key="String2ReducedStringConverter"/>
 
 </ResourceDictionary>

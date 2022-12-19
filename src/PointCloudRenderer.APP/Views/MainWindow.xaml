@@ -8,6 +8,7 @@
 		xmlns:viewModels="clr-namespace:PointCloudRenderer.APP.ViewModels"
 		xmlns:views="clr-namespace:PointCloudRenderer.APP.Views"
 		xmlns:ext="clr-namespace:PointCloudRenderer.APP.Extensions"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
 		mc:Ignorable="d"
 		Title="Point Cloud Renderer" Height="450" Width="800">
@@ -18,8 +19,25 @@
 		</Grid.RowDefinitions>
 
 		<Menu>
+			<Menu.Resources>
+				<sys:Int32 x:Key="MenuPathLen" >50</sys:Int32>
+			</Menu.Resources>
 			<MenuItem Header="File">
-				<MenuItem Header="Open" Command="{Binding OpenFileCommand}"/>
+				<MenuItem Header="Open" Command="{Binding OpenFileDialogCommand}"/>
+				<MenuItem Header="Recently opened" ItemsSource="{Binding OpenedRecentlyService.Files}" IsEnabled="{Binding OpenedRecentlyService.Files.Count, Converter={StaticResource Number2BoolConverter}}">
+					<MenuItem.ItemContainerStyle>
+						<Style TargetType="{x:Type MenuItem}">
+							<Setter Property="Header">
+								<Setter.Value>
+									<Binding Converter="{StaticResource String2ReducedStringConverter}" ConverterParameter="{StaticResource MenuPathLen}"/>
+								</Setter.Value>
+							</Setter>
+							<Setter Property="Command" Value="{Binding DataContext.OpenFileCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type MenuItem}, AncestorLevel=1}}"/>
+							<Setter Property="CommandParameter" Value="{Binding}"/>
+							<Setter Property="ToolTip" Value="{Binding}"/>
+						</Style>
+					</MenuItem.ItemContainerStyle>
+				</MenuItem>
 			</MenuItem>
 		</Menu>
 

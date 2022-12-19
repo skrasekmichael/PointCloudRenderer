@@ -5,7 +5,6 @@ using PointCloudRenderer.APP.Scenes;
 using PointCloudRenderer.APP.Services;
 using PointCloudRenderer.APP.ViewModels;
 using PointCloudRenderer.APP.Views;
-using System.Globalization;
 using System.Windows;
 
 namespace PointCloudRenderer.APP;
@@ -42,11 +41,15 @@ public sealed partial class App : Application
 
 		//services
 		services.AddSingleton<LoadPointCloudService>();
+		services.AddSingleton<OpenedRecentlyService>();
 	}
 
 	protected override async void OnStartup(StartupEventArgs e)
 	{
 		await host.StartAsync();
+
+		var openedRecentlyService = host.Services.GetRequiredService<OpenedRecentlyService>();
+		await openedRecentlyService.LoadAsync();
 
 		var window = host.Services.GetRequiredService<MainWindow>();
 

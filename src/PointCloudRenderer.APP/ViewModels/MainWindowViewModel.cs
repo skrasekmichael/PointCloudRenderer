@@ -39,27 +39,35 @@ public sealed partial class MainWindowViewModel : BaseViewModel
 		}
 	}
 
+	public OpenedRecentlyService OpenedRecentlyService { get; }
+
 	public MainWindowViewModel(
 		SimplePointCloudSceneViewModel simplePointCloudSceneViewModel,
+		OpenedRecentlyService openedRecentlyService,
 		LoadPointCloudService loadPointCloudService)
 	{
 		this.loadPointCloudService = loadPointCloudService;
+		OpenedRecentlyService = openedRecentlyService;
 
 		SceneTypes.Add(new(simplePointCloudSceneViewModel, simplePointCloudSceneViewModel.Name));
 		NamedSceneViewModel = SceneTypes[0];
 	}
 
 	[RelayCommand]
-	public async Task OpenFileAsync()
+	public async Task OpenFileDialogAsync()
 	{
 		ofd.Filter = ".xyz|*.xyz";
 		ofd.Multiselect = false;
 
 		if (ofd.ShowDialog() == true)
-		{
-			var cloud = await loadPointCloudService.LoadAsync(ofd.FileName);
-			if (cloud is not null)
-				Cloud = cloud;
-		}
+			await OpenFileAsync(ofd.FileName);
+	}
+
+	[RelayCommand]
+	public async Task OpenFileAsync(string file)
+	{
+		var cloud = await loadPointCloudService.LoadAsync(file);
+		if (cloud is not null)
+			Cloud = cloud;
 	}
 }
