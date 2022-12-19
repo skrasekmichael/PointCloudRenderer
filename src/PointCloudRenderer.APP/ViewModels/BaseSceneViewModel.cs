@@ -26,7 +26,7 @@ public partial class BaseSceneViewModel : BaseViewModel
 	}
 
 	[RelayCommand]
-	public void Zoom(int delta) => Scene.ZoomLevel = Math.Clamp(Scene.ZoomLevel - delta * 0.0001f, 0, 5);
+	public void Zoom(int delta) => Scene.ZoomLevel = Math.Max(Scene.ZoomLevel - delta * 0.0001f, 0);
 
 	[RelayCommand]
 	public void StartRotating()
